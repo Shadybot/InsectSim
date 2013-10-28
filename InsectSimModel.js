@@ -733,7 +733,7 @@
 
     HistoryUrlViewer.prototype.onUpdate = function(foodHistory) {
       var serial, serializer, urlBase;
-      urlBase = location.protocol + location.hostname + location.pathname;
+      urlBase = location.protocol + "//" + location.hostname + location.pathname;
       serializer = new HistorySerializer();
       serial = serializer.getSerial(foodHistory.history);
       return this.jText.val("" + urlBase + "?" + serial);
