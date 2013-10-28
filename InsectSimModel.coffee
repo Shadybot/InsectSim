@@ -409,7 +409,7 @@ class HistoryUrlViewer extends Listener
 	onInitialize:(sender)->
 		@onUpdate(sender)
 	onUpdate:(foodHistory)->
-		urlBase = location.protocol + location.hostname + location.pathname
+		urlBase = location.protocol + "//" + location.hostname + location.pathname
 		
 		serializer = new HistorySerializer()
 		serial = serializer.getSerial(foodHistory.history)
