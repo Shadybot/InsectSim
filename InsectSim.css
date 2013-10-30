@@ -44,6 +44,9 @@ div#lstFoodSummary {
 	font-size			: smaller;
 }
 
+.state-highlight {
+	background-color	: lightyellow;
+}
 
 /* ダイアログ */
 div.dialogBackground {

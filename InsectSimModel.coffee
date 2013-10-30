@@ -10,6 +10,15 @@ exports.ATTR = { POWER:"P", STAMINA:"ST", SPEED:"SP", FIRE:"F", WATER:"W", THUND
 ###
 exports.LEVEL_LIMIT_LIST = [15, 30, 45, 54, 63, 72, 81, 90]
 
+###
+エフェクト表示
+###
+SetEffect = (jItems...) ->
+	for jItem in jItems
+		jItem.addClass "state-highlight"
+		setTimeout ->
+			jItem.removeClass( "state-highlight" )
+		, 500
 
 ###
 イベントを呼ぶことが出来るオブジェクト
@@ -95,6 +104,8 @@ class exports.AttributeStatusViewer extends Listener
 		@jGrowthPoint .text attr.growthPoint
 		@jRequirePoint.text attr.requirePoint
 
+		SetEffect @jName
+
 ###
 全成長ポイントとレベル
 ###
@@ -158,6 +169,7 @@ class exports.AllGrowthPointViewer extends Listener
 				$(cell).text allPoint.levelLimitList[index]
 			else if index == allPoint.level - 1
 				$(cell).text allPoint.getAllPoint()
+				SetEffect $(cell)
 			else if index > allPoint.level - 1
 				$(cell).text "-"
 
@@ -1039,6 +1051,7 @@ class exports.InsectBuilder
 		@attributeStatusList[ATTR.POWER  ].addListener insectEvolutionItem
 		@attributeStatusList[ATTR.STAMINA].addListener insectEvolutionItem
 		@attributeStatusList[ATTR.SPEED  ].addListener insectEvolutionItem
+		@attributeStatusList[ATTR.WATER  ].addListener insectEvolutionItem
 		
 		return insectEvolutionItem
 	

@@ -1,5 +1,6 @@
 (function() {
-  var FoodHistoryItem, HistoryItem, HistoryItemFactory, HistorySerializer, HistoryUrlViewer, InitHistoryItem, InsectType, LevelUpHistoryItem, ListenedItem, Listener, SeveralTimesList, StrCompresser, UndoAbleObject, UndoMemory, exports,
+  var FoodHistoryItem, HistoryItem, HistoryItemFactory, HistorySerializer, HistoryUrlViewer, InitHistoryItem, InsectType, LevelUpHistoryItem, ListenedItem, Listener, SetEffect, SeveralTimesList, StrCompresser, UndoAbleObject, UndoMemory, exports,
+    __slice = [].slice,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -28,6 +29,25 @@
 
 
   exports.LEVEL_LIMIT_LIST = [15, 30, 45, 54, 63, 72, 81, 90];
+
+  /*
+  エフェクト表示
+  */
+
+
+  SetEffect = function() {
+    var jItem, jItems, _i, _len, _results;
+    jItems = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    _results = [];
+    for (_i = 0, _len = jItems.length; _i < _len; _i++) {
+      jItem = jItems[_i];
+      jItem.addClass("state-highlight");
+      _results.push(setTimeout(function() {
+        return jItem.removeClass("state-highlight");
+      }, 500));
+    }
+    return _results;
+  };
 
   /*
   イベントを呼ぶことが出来るオブジェクト
@@ -174,7 +194,8 @@
       this.jName.text(attr.name);
       this.jStatus.text(attr.status);
       this.jGrowthPoint.text(attr.growthPoint);
-      return this.jRequirePoint.text(attr.requirePoint);
+      this.jRequirePoint.text(attr.requirePoint);
+      return SetEffect(this.jName);
     };
 
     return AttributeStatusViewer;
@@ -287,7 +308,8 @@
         if (index < allPoint.level - 1) {
           _results.push($(cell).text(allPoint.levelLimitList[index]));
         } else if (index === allPoint.level - 1) {
-          _results.push($(cell).text(allPoint.getAllPoint()));
+          $(cell).text(allPoint.getAllPoint());
+          _results.push(SetEffect($(cell)));
         } else if (index > allPoint.level - 1) {
           _results.push($(cell).text("-"));
         } else {
@@ -1817,6 +1839,7 @@
       this.attributeStatusList[ATTR.POWER].addListener(insectEvolutionItem);
       this.attributeStatusList[ATTR.STAMINA].addListener(insectEvolutionItem);
       this.attributeStatusList[ATTR.SPEED].addListener(insectEvolutionItem);
+      this.attributeStatusList[ATTR.WATER].addListener(insectEvolutionItem);
       return insectEvolutionItem;
     };
 
