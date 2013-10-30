@@ -1,7 +1,5 @@
 # ◆今後追加したい機能
 
-#・ブラウザ保存、読み込み
-#[保存No01:無し▽] [保存][読込]
 #・変更が発生した箇所にエフェクトを出してわかりやすく
 #-----
 #・jQueryUIでデザインする
@@ -15,7 +13,7 @@ $ ->
 	insect = insectBuildDirector.construct()
 	
 	if location.search.length >= 2
-		insect.setHistory(location.search.substring(1))
+		insect.setSerial(location.search.substring(1))
 
 	$("#foodList input:button").click ->
 		foodFactory = new FoodFactory()
@@ -31,6 +29,23 @@ $ ->
 	$("#btnReset").click ->
 		if confirm("リセットします。よろしいですか？") == false then return
 		insect.reset()
+
+	# ブラウザ保存
+	browserSaveData = new BrowserSaveData("result", 8)
+	browserSaveData.addListener new BrowserSaveDataViewer("cmbResultList")
+
+	$("#btnResultSave").click ->
+		index = $("#cmbResultList").val()
+
+		name = prompt("保存名：")
+		if not name? then return
+		
+		browserSaveData.setSaveData index, name, insect.getSerial()
+
+	$("#btnResultLoad").click ->
+		index = $("#cmbResultList").val()
+		insect.setSerial browserSaveData.getSaveData(index)
+
 
 	# ダイアログ
 	initDialogBuildDirector = new InitDialogBuildDirector(new InitDialogBuilder())

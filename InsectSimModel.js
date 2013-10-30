@@ -1014,13 +1014,13 @@
       return level;
     };
 
-    Insect.prototype.getHistory = function() {
+    Insect.prototype.getSerial = function() {
       var serializer;
       serializer = new HistorySerializer();
       return serializer.getSerial(this.foodHistory.history);
     };
 
-    Insect.prototype.setHistory = function(serial) {
+    Insect.prototype.setSerial = function(serial) {
       var historyItem, historyItems, serializer, _i, _len, _results;
       serializer = new HistorySerializer();
       historyItems = serializer.readFromSerial(serial);
@@ -1556,6 +1556,110 @@
     };
 
     return InsectEvolutionItemViewer;
+
+  })(Listener);
+
+  /*
+  結果のブラウザ保存
+  */
+
+
+  exports.BrowserSaveData = (function(_super) {
+    __extends(BrowserSaveData, _super);
+
+    function BrowserSaveData(groupName, max) {
+      this.groupName = groupName;
+      this.max = max;
+      BrowserSaveData.__super__.constructor.call(this);
+      this._saveDatas = [];
+      this.loadCookie();
+    }
+
+    BrowserSaveData.prototype.loadCookie = function() {
+      var index, _i, _ref, _ref1, _ref2;
+      this._saveDatas = [];
+      for (index = _i = 0, _ref = this.max; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
+        this._saveDatas.push({
+          name: (_ref1 = $.cookie("" + this.groupName + index + "_name")) != null ? _ref1 : "",
+          data: (_ref2 = $.cookie("" + this.groupName + index + "_data")) != null ? _ref2 : ""
+        });
+      }
+      return this.notifyUpdate();
+    };
+
+    BrowserSaveData.prototype.setSaveData = function(index, name, data) {
+      this._saveDatas[index] = {
+        name: name,
+        data: data
+      };
+      $.cookie("" + this.groupName + index + "_name", name, {
+        expires: 999
+      });
+      $.cookie("" + this.groupName + index + "_data", data, {
+        expires: 999
+      });
+      return this.notifyUpdate();
+    };
+
+    BrowserSaveData.prototype.getSaveData = function(index) {
+      return this._saveDatas[index].data;
+    };
+
+    BrowserSaveData.prototype.getSaveDataNames = function() {
+      var saveData;
+      return (function() {
+        var _i, _len, _ref, _results;
+        _ref = this._saveDatas;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          saveData = _ref[_i];
+          _results.push(saveData.name);
+        }
+        return _results;
+      }).call(this);
+    };
+
+    return BrowserSaveData;
+
+  })(ListenedItem);
+
+  /*
+  結果のブラウザ保存　表示オブジェクト
+  */
+
+
+  exports.BrowserSaveDataViewer = (function(_super) {
+    __extends(BrowserSaveDataViewer, _super);
+
+    function BrowserSaveDataViewer(elementId) {
+      this.jCombo = $("#" + elementId);
+      this.jOptions = [];
+    }
+
+    BrowserSaveDataViewer.prototype.onInitialize = function(browserSaveData) {
+      var index, option, _i, _ref;
+      this.jCombo.find("option").remove();
+      this.jOptions = [];
+      for (index = _i = 0, _ref = browserSaveData.max; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
+        option = $("<option value='" + index + "'></option>");
+        this.jCombo.append(option);
+        this.jOptions.push(option);
+      }
+      return this.onUpdate(browserSaveData);
+    };
+
+    BrowserSaveDataViewer.prototype.onUpdate = function(browserSaveData) {
+      var i, name, _i, _len, _ref, _results;
+      _ref = browserSaveData.getSaveDataNames();
+      _results = [];
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        name = _ref[i];
+        _results.push(this.jOptions[i].text("保存No" + (i + 1) + ": " + name));
+      }
+      return _results;
+    };
+
+    return BrowserSaveDataViewer;
 
   })(Listener);
 

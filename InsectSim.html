@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>虫餌シミュレータ</title>
 <script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.cookie.js"></script>
 <script src="./InsectSimModel.js"></script>
 <script src="./InsectSim.js"></script>
 <style name="MainStyle">
@@ -24,9 +25,11 @@
 #foodList input.FoodElement {
 	color				: #333;
 }
-
 #txtResultUrl {
 	width				: 35em;
+}
+#cmbResultList {
+	width				: 20em;
 }
 table, tr, td, th, table input {
 	border				: 1px solid;
@@ -157,7 +160,10 @@ div.dialogBody div.ButtonArea {
 </div>
 <div>
 <h1>シミュレーション結果</h1>
-<input id="txtResultUrl" type="text">
+<input id="txtResultUrl" type="text"><br>
+<select id="cmbResultList"></select>
+<input id="btnResultSave" type="button" value="保存">
+<input id="btnResultLoad" type="button" value="読込">
 </div>
 
 </div>

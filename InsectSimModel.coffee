@@ -564,11 +564,11 @@ class exports.Insect
 
 		return level
 
-	getHistory:->
+	getSerial:->
 		serializer = new HistorySerializer()
 		return serializer.getSerial(@foodHistory.history)
 
-	setHistory:(serial)->
+	setSerial:(serial)->
 		serializer = new HistorySerializer()
 		historyItems = serializer.readFromSerial(serial)
 		
@@ -858,6 +858,52 @@ class exports.InsectEvolutionItemViewer extends Listener
 		
 		jEvolutionItem.css "color", (if insectEvolutionItem.CheckEvolution() then "black" else "silver")
 		jEvolutionItem.css "font-weight", (if insectEvolutionItem.CheckCurrent() then "bold" else "normal")
+
+###
+結果のブラウザ保存
+###
+class exports.BrowserSaveData extends ListenedItem
+	constructor:(@groupName, @max)->
+		super()
+		@_saveDatas = []
+		@loadCookie()
+	loadCookie:->
+		@_saveDatas = []
+		for index in [0...@max]
+			@_saveDatas.push {
+				name: ($.cookie("#{@groupName}#{index}_name") ? ""),
+				data: ($.cookie("#{@groupName}#{index}_data") ? ""),
+			}
+		@notifyUpdate()
+	setSaveData:(index, name, data)->
+		@_saveDatas[index] = { name: name, data: data }
+		$.cookie("#{@groupName}#{index}_name", name, { expires: 999 });
+		$.cookie("#{@groupName}#{index}_data", data, { expires: 999 });
+		
+		@notifyUpdate()
+	getSaveData:(index)->
+		return @_saveDatas[index].data
+	getSaveDataNames:->
+		return (saveData.name for saveData in @_saveDatas)
+
+###
+結果のブラウザ保存　表示オブジェクト
+###
+class exports.BrowserSaveDataViewer extends Listener
+	constructor:(elementId)->
+		@jCombo = $("##{elementId}")
+		@jOptions = []
+	onInitialize:(browserSaveData) ->
+		@jCombo.find("option").remove()
+		@jOptions = []
+		for index in [0...browserSaveData.max]
+			option = $("<option value='#{index}'></option>")
+			@jCombo.append(option)
+			@jOptions.push option
+		@onUpdate(browserSaveData)
+	onUpdate:(browserSaveData) ->
+		for name, i in browserSaveData.getSaveDataNames()
+			@jOptions[i].text "保存No#{i+1}: #{name}"
 
 ###
 虫種類オブジェクト建築指揮者

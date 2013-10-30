@@ -4,11 +4,11 @@
   exports = this;
 
   $(function() {
-    var initDialog, initDialogBuildDirector, insect, insectBuildDirector;
+    var browserSaveData, initDialog, initDialogBuildDirector, insect, insectBuildDirector;
     insectBuildDirector = new InsectBuildDirector(new InsectBuilder());
     insect = insectBuildDirector.construct();
     if (location.search.length >= 2) {
-      insect.setHistory(location.search.substring(1));
+      insect.setSerial(location.search.substring(1));
     }
     $("#foodList input:button").click(function() {
       var food, foodFactory;
@@ -27,6 +27,22 @@
         return;
       }
       return insect.reset();
+    });
+    browserSaveData = new BrowserSaveData("result", 8);
+    browserSaveData.addListener(new BrowserSaveDataViewer("cmbResultList"));
+    $("#btnResultSave").click(function() {
+      var index, name;
+      index = $("#cmbResultList").val();
+      name = prompt("保存名：");
+      if (name == null) {
+        return;
+      }
+      return browserSaveData.setSaveData(index, name, insect.getSerial());
+    });
+    $("#btnResultLoad").click(function() {
+      var index;
+      index = $("#cmbResultList").val();
+      return insect.setSerial(browserSaveData.getSaveData(index));
     });
     initDialogBuildDirector = new InitDialogBuildDirector(new InitDialogBuilder());
     initDialog = initDialogBuildDirector.construct();
