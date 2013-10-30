@@ -418,6 +418,10 @@
       return FoodHistoryItem._serialBaseChars[this.food.id];
     };
 
+    FoodHistoryItem.prototype.getOrder = function() {
+      return this.food.orderNo;
+    };
+
     FoodHistoryItem.isThisType = function(char) {
       return this._serialBaseChars.indexOf(char) >= 0;
     };
@@ -646,34 +650,76 @@
     __extends(FoodHistoryViewer, _super);
 
     function FoodHistoryViewer(elementId) {
-      this.elementId = elementId;
       FoodHistoryViewer.__super__.constructor.call(this);
+      this.jList = $("#" + elementId);
     }
 
     FoodHistoryViewer.prototype.onInitialize = function(foodHistory) {
-      return $("#" + this.elementId + " > option").remove();
+      return this.jList.text("");
     };
 
     FoodHistoryViewer.prototype.onUpdate = function(foodHistory) {
-      var historyItem, item, jList, severalTimesList, _i, _j, _len, _len1, _ref, _ref1, _results;
-      jList = $("#" + this.elementId);
-      $("option", jList).remove();
+      var historyItem, item, severalTimesList, _i, _j, _len, _len1, _ref, _ref1, _results;
       severalTimesList = new SeveralTimesList();
       _ref = foodHistory.history;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         historyItem = _ref[_i];
         severalTimesList.push(historyItem.name);
       }
+      this.jList.text("");
       _ref1 = severalTimesList.list;
       _results = [];
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         item = _ref1[_j];
-        _results.push(jList.append($("<option>").html(item)));
+        _results.push(this.jList.append($("<span>").html(item).append($("<br>"))));
       }
       return _results;
     };
 
     return FoodHistoryViewer;
+
+  })(Listener);
+
+  /*
+  餌合計オブジェクト　表示用オブジェクト
+  */
+
+
+  exports.FoodSummaryViewer = (function(_super) {
+    __extends(FoodSummaryViewer, _super);
+
+    function FoodSummaryViewer(elementId) {
+      FoodSummaryViewer.__super__.constructor.call(this);
+      this.jList = $("#" + elementId);
+    }
+
+    FoodSummaryViewer.prototype.onInitialize = function(foodHistory) {
+      return this.jList.text("");
+    };
+
+    FoodSummaryViewer.prototype.onUpdate = function(foodHistory) {
+      var historyItem, item, severalTimesList, summaryList, _i, _j, _len, _len1, _ref, _results;
+      severalTimesList = new SeveralTimesList();
+      summaryList = foodHistory.history.filter(function(item) {
+        return item instanceof FoodHistoryItem;
+      }).sort(function(item1, item2) {
+        return item1.getOrder() - item2.getOrder();
+      });
+      for (_i = 0, _len = summaryList.length; _i < _len; _i++) {
+        historyItem = summaryList[_i];
+        severalTimesList.push(historyItem.name);
+      }
+      this.jList.text("");
+      _ref = severalTimesList.list;
+      _results = [];
+      for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+        item = _ref[_j];
+        _results.push(this.jList.append($("<span>").html(item).append($("<br>"))));
+      }
+      return _results;
+    };
+
+    return FoodSummaryViewer;
 
   })(Listener);
 
@@ -1022,9 +1068,10 @@
 
 
   exports.Food = (function() {
-    function Food(id, name, attributes) {
+    function Food(id, orderNo, name, attributes) {
       var allPoint, attribute, _i, _len;
       this.id = id;
+      this.orderNo = orderNo;
       this.name = name;
       this.attributes = attributes;
       allPoint = 0;
@@ -1069,27 +1116,27 @@
   exports.FoodFactory = (function() {
     function FoodFactory() {
       this._foods = [];
-      this._foods.push(new Food(1, "力の虫餌・火", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.WATER, -2)]));
-      this._foods.push(new Food(2, "力の虫餌・火炎", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -3)]));
-      this._foods.push(new Food(3, "力の上虫餌", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.FIRE, -1)]));
-      this._foods.push(new Food(4, "力の上虫餌・火", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.SPEED, -3)]));
-      this._foods.push(new Food(5, "体の虫餌・龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +1), new Attribute(ATTR.FIRE, -2)]));
-      this._foods.push(new Food(6, "体の虫餌・破龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.FIRE, -3)]));
-      this._foods.push(new Food(7, "体の虫餌・水", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.THUNDER, -2)]));
-      this._foods.push(new Food(8, "体の上虫餌", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.WATER, -1)]));
-      this._foods.push(new Food(9, "体の上虫餌・水", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.POWER, -3)]));
-      this._foods.push(new Food(10, "速の虫餌・流水", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -3)]));
-      this._foods.push(new Food(11, "速の虫餌・雷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.ICE, -2)]));
-      this._foods.push(new Food(12, "速の虫餌・雷光", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.ICE, -3)]));
-      this._foods.push(new Food(13, "速の虫餌・氷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +1), new Attribute(ATTR.DRAGON, -2)]));
-      this._foods.push(new Food(14, "速の虫餌・氷結", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +2), new Attribute(ATTR.DRAGON, -3)]));
-      this._foods.push(new Food(15, "速の上虫餌", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.THUNDER, -1)]));
-      this._foods.push(new Food(16, "速の上虫餌・雷", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.STAMINA, -3)]));
-      this._foods.push(new Food(17, "虫餌・火炎", [new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -1), new Attribute(ATTR.ICE, -1)]));
-      this._foods.push(new Food(18, "虫餌・流水", [new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(19, "虫餌・雷光", [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.ICE, -1)]));
-      this._foods.push(new Food(20, "虫餌・氷結", [new Attribute(ATTR.ICE, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(21, "虫餌・破龍", [new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.FIRE, -1)]));
+      this._foods.push(new Food(1, 1, "力の虫餌・火", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.WATER, -2)]));
+      this._foods.push(new Food(2, 2, "力の虫餌・火炎", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -3)]));
+      this._foods.push(new Food(3, 3, "力の上虫餌", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.FIRE, -1)]));
+      this._foods.push(new Food(4, 4, "力の上虫餌・火", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.SPEED, -3)]));
+      this._foods.push(new Food(5, 6, "体の虫餌・龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +1), new Attribute(ATTR.FIRE, -2)]));
+      this._foods.push(new Food(6, 7, "体の虫餌・破龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.FIRE, -3)]));
+      this._foods.push(new Food(7, 5, "体の虫餌・水", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.THUNDER, -2)]));
+      this._foods.push(new Food(8, 8, "体の上虫餌", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.WATER, -1)]));
+      this._foods.push(new Food(9, 9, "体の上虫餌・水", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.POWER, -3)]));
+      this._foods.push(new Food(10, 10, "速の虫餌・流水", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -3)]));
+      this._foods.push(new Food(11, 11, "速の虫餌・雷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.ICE, -2)]));
+      this._foods.push(new Food(12, 12, "速の虫餌・雷光", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.ICE, -3)]));
+      this._foods.push(new Food(13, 13, "速の虫餌・氷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +1), new Attribute(ATTR.DRAGON, -2)]));
+      this._foods.push(new Food(14, 14, "速の虫餌・氷結", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +2), new Attribute(ATTR.DRAGON, -3)]));
+      this._foods.push(new Food(15, 15, "速の上虫餌", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.THUNDER, -1)]));
+      this._foods.push(new Food(16, 16, "速の上虫餌・雷", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.STAMINA, -3)]));
+      this._foods.push(new Food(17, 17, "虫餌・火炎", [new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -1), new Attribute(ATTR.ICE, -1)]));
+      this._foods.push(new Food(18, 18, "虫餌・流水", [new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -1), new Attribute(ATTR.DRAGON, -1)]));
+      this._foods.push(new Food(19, 19, "虫餌・雷光", [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.ICE, -1)]));
+      this._foods.push(new Food(20, 20, "虫餌・氷結", [new Attribute(ATTR.ICE, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.DRAGON, -1)]));
+      this._foods.push(new Food(21, 21, "虫餌・破龍", [new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.FIRE, -1)]));
     }
 
     FoodFactory.prototype.create = function(name) {
@@ -1609,6 +1656,7 @@
     InsectBuilder.prototype.initFoodHistory = function() {
       this.foodHistory = new FoodHistory();
       this.foodHistory.addListener(new FoodHistoryViewer("lstFoodHistory"));
+      this.foodHistory.addListener(new FoodSummaryViewer("lstFoodSummary"));
       this.foodHistory.addListener(new UndoEnableViewer("btnUndo"));
       this.foodHistory.addListener(new ResetEnableViewer("btnReset"));
       return this.foodHistory.addListener(new HistoryUrlViewer("txtResultUrl"));
