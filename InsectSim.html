@@ -8,21 +8,36 @@
 <script src="./InsectSim.js"></script>
 <style name="MainStyle">
 #foodList input {
-	width: 8em;
+	width				: 8em;
+	font-weight			: bold;
+	background-color	: #F0F0F0;
 }
+#foodList input.FoodPower   {
+	color				: firebrick;
+}
+#foodList input.FoodStamina {
+	color				: peru;
+}
+#foodList input.FoodSpeed   {
+	color				: darkslategray;
+}
+#foodList input.FoodElement {
+	color				: #333;
+}
+
 #txtResultUrl {
-	width: 35em;
+	width				: 35em;
 }
 table, tr, td, th, table input {
-	border: 1px solid;
+	border				: 1px solid;
 }
 div.layout {
-	float:left;
-	margin-right: 10px;
+	float				:left;
+	margin-right		: 10px;
 }
 select#lstFoodHistory {
-	width: 11em;
-	height: 30em;
+	width				: 11em;
+	height				: 30em;
 }
 </style>
 <style name="InitDialogStyle">
@@ -97,27 +112,27 @@ div.dialogBody div.ButtonArea {
 	<th>下がる能力1</th>
 	<th>下がる能力2</th>
 </tr>
-<tr><td><input type="button" value="力の虫餌・火"></td><td>パワー+1</td><td>火属性+1</td><td>水属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="力の虫餌・火炎"></td><td>パワー+1</td><td>火属性+2</td><td>水属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="力の上虫餌"></td><td>パワー+2</td><td>&nbsp;</td><td>スピード-1</td><td>火属性-1</td></tr>
-<tr><td><input type="button" value="力の上虫餌・火"></td><td>パワー+2</td><td>火属性+1</td><td>スピード-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の虫餌・水"></td><td>スタミナ+1</td><td>水属性+1</td><td>雷属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の虫餌・龍"></td><td>スタミナ+1</td><td>龍属性+1</td><td>火属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の虫餌・破龍"></td><td>スタミナ+1</td><td>龍属性+2</td><td>火属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の上虫餌"></td><td>スタミナ+2</td><td>&nbsp;</td><td>パワー-1</td><td>水属性-1</td></tr>
-<tr><td><input type="button" value="体の上虫餌・水"></td><td>スタミナ+2</td><td>水属性+1</td><td>パワー-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・流水"></td><td>スピード+1</td><td>水属性+2</td><td>雷属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・雷"></td><td>スピード+1</td><td>雷属性+1</td><td>氷属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・雷光"></td><td>スピード+1</td><td>雷属性+2</td><td>氷属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・氷"></td><td>スピード+1</td><td>氷属性+1</td><td>龍属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・氷結"></td><td>スピード+1</td><td>氷属性+2</td><td>龍属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の上虫餌"></td><td>スピード+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>雷属性-1</td></tr>
-<tr><td><input type="button" value="速の上虫餌・雷"></td><td>スピード+2</td><td>雷属性+1</td><td>スタミナ-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="虫餌・火炎"></td><td>火属性+2</td><td>&nbsp;</td><td>水属性-1</td><td>氷属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・流水"></td><td>水属性+2</td><td>&nbsp;</td><td>雷属性-1</td><td>龍属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・雷光"></td><td>雷属性+2</td><td>&nbsp;</td><td>スピード-1</td><td>氷属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・氷結"></td><td>氷属性+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>龍属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・破龍"></td><td>龍属性+2</td><td>&nbsp;</td><td>パワー-1</td><td>火属性-1</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の虫餌・火"></td><td>パワー+1</td><td>火属性+1</td><td>水属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の虫餌・火炎"></td><td>パワー+1</td><td>火属性+2</td><td>水属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の上虫餌"></td><td>パワー+2</td><td>&nbsp;</td><td>スピード-1</td><td>火属性-1</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の上虫餌・火"></td><td>パワー+2</td><td>火属性+1</td><td>スピード-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の虫餌・水"></td><td>スタミナ+1</td><td>水属性+1</td><td>雷属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の虫餌・龍"></td><td>スタミナ+1</td><td>龍属性+1</td><td>火属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の虫餌・破龍"></td><td>スタミナ+1</td><td>龍属性+2</td><td>火属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の上虫餌"></td><td>スタミナ+2</td><td>&nbsp;</td><td>パワー-1</td><td>水属性-1</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の上虫餌・水"></td><td>スタミナ+2</td><td>水属性+1</td><td>パワー-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・流水"></td><td>スピード+1</td><td>水属性+2</td><td>雷属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・雷"></td><td>スピード+1</td><td>雷属性+1</td><td>氷属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・雷光"></td><td>スピード+1</td><td>雷属性+2</td><td>氷属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・氷"></td><td>スピード+1</td><td>氷属性+1</td><td>龍属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・氷結"></td><td>スピード+1</td><td>氷属性+2</td><td>龍属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の上虫餌"></td><td>スピード+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>雷属性-1</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の上虫餌・雷"></td><td>スピード+2</td><td>雷属性+1</td><td>スタミナ-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・火炎"></td><td>火属性+2</td><td>&nbsp;</td><td>水属性-1</td><td>氷属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・流水"></td><td>水属性+2</td><td>&nbsp;</td><td>雷属性-1</td><td>龍属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・雷光"></td><td>雷属性+2</td><td>&nbsp;</td><td>スピード-1</td><td>氷属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・氷結"></td><td>氷属性+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>龍属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・破龍"></td><td>龍属性+2</td><td>&nbsp;</td><td>パワー-1</td><td>火属性-1</td></tr>
 </table>
 <div id="levelUpButtons">
 <input id="btnLevelUp0" type="button" value="-">
