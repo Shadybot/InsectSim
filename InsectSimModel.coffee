@@ -10,6 +10,15 @@ exports.ATTR = { POWER:"P", STAMINA:"ST", SPEED:"SP", FIRE:"F", WATER:"W", THUND
 ###
 exports.LEVEL_LIMIT_LIST = [15, 30, 45, 54, 63, 72, 81, 90]
 
+###
+エフェクト表示
+###
+SetEffect = (jItems...) ->
+	for jItem in jItems
+		jItem.addClass "state-highlight"
+		setTimeout ->
+			jItem.removeClass( "state-highlight" )
+		, 500
 
 ###
 イベントを呼ぶことが出来るオブジェクト
@@ -95,6 +104,8 @@ class exports.AttributeStatusViewer extends Listener
 		@jGrowthPoint .text attr.growthPoint
 		@jRequirePoint.text attr.requirePoint
 
+		SetEffect @jName
+
 ###
 全成長ポイントとレベル
 ###
@@ -158,6 +169,7 @@ class exports.AllGrowthPointViewer extends Listener
 				$(cell).text allPoint.levelLimitList[index]
 			else if index == allPoint.level - 1
 				$(cell).text allPoint.getAllPoint()
+				SetEffect $(cell)
 			else if index > allPoint.level - 1
 				$(cell).text "-"
 
@@ -218,6 +230,8 @@ class FoodHistoryItem extends HistoryItem
 		@name = food.name
 	toSerial:->
 		return FoodHistoryItem._serialBaseChars[@food.id]
+	getOrder:->
+		return @food.orderNo
 	@isThisType:(char)->
 		return @_serialBaseChars.indexOf(char) >= 0
 	@createFromSerial:(serial, readPos)->
@@ -357,21 +371,43 @@ class StrCompresser
 餌履歴オブジェクト　表示用オブジェクト
 ###
 class exports.FoodHistoryViewer extends Listener
-	constructor:(@elementId)->
+	constructor:(elementId)->
 		super()
+		@jList = $("##{elementId}")
 	onInitialize:(foodHistory)->
-		$("##{@elementId} > option").remove()
-		
+		@jList.text("")
 	onUpdate:(foodHistory)->
-		jList = $("##{@elementId}")
-		$("option", jList).remove()
-
 		severalTimesList = new SeveralTimesList()
 		for historyItem in foodHistory.history
 			severalTimesList.push historyItem.name
 		
+		@jList.text("")
 		for item in severalTimesList.list
-			jList.append $("<option>").html(item)
+			@jList.append $("<span>").html(item)
+			      .append $("<br>")
+
+###
+餌合計オブジェクト　表示用オブジェクト
+###
+class exports.FoodSummaryViewer extends Listener
+	constructor:(elementId)->
+		super()
+		@jList = $("##{elementId}")
+	onInitialize:(foodHistory)->
+		@jList.text("")
+	onUpdate:(foodHistory)->
+		severalTimesList = new SeveralTimesList()
+		summaryList = 
+			foodHistory.history
+			.filter((item) -> item instanceof FoodHistoryItem)
+			.sort((item1, item2) -> item1.getOrder() - item2.getOrder())
+		for historyItem in summaryList
+			severalTimesList.push historyItem.name
+		
+		@jList.text("")
+		for item in severalTimesList.list
+			@jList.append $("<span>").html(item)
+			      .append $("<br>")
 
 ###
 重複をまとめて表示するためのリスト
@@ -540,11 +576,11 @@ class exports.Insect
 
 		return level
 
-	getHistory:->
+	getSerial:->
 		serializer = new HistorySerializer()
 		return serializer.getSerial(@foodHistory.history)
 
-	setHistory:(serial)->
+	setSerial:(serial)->
 		serializer = new HistorySerializer()
 		historyItems = serializer.readFromSerial(serial)
 		
@@ -564,7 +600,7 @@ class exports.Attribute
 虫餌オブジェクト
 ###
 class exports.Food
-	constructor:(@id, @name, @attributes)->
+	constructor:(@id, @orderNo, @name, @attributes)->
 		allPoint = 0
 		for attribute in attributes
 			allPoint += attribute.point
@@ -590,27 +626,27 @@ class exports.Food
 class exports.FoodFactory
 	constructor:->
 		@_foods = []
-		@_foods.push new Food( 1, "力の虫餌・火"  , [new Attribute(ATTR.POWER  , +1), new Attribute(ATTR.FIRE    , +1), new Attribute(ATTR.WATER  , -2)])
-		@_foods.push new Food( 2, "力の虫餌・火炎", [new Attribute(ATTR.POWER  , +1), new Attribute(ATTR.FIRE    , +2), new Attribute(ATTR.WATER  , -3)])
-		@_foods.push new Food( 3, "力の上虫餌"    , [new Attribute(ATTR.POWER  , +2), new Attribute(ATTR.SPEED   , -1), new Attribute(ATTR.FIRE   , -1)])
-		@_foods.push new Food( 4, "力の上虫餌・火", [new Attribute(ATTR.POWER  , +2), new Attribute(ATTR.FIRE    , +1), new Attribute(ATTR.SPEED  , -3)])
-		@_foods.push new Food( 5, "体の虫餌・龍"  , [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON  , +1), new Attribute(ATTR.FIRE   , -2)])
-		@_foods.push new Food( 6, "体の虫餌・破龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON  , +2), new Attribute(ATTR.FIRE   , -3)])
-		@_foods.push new Food( 7, "体の虫餌・水"  , [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER   , +1), new Attribute(ATTR.THUNDER, -2)])
-		@_foods.push new Food( 8, "体の上虫餌"    , [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER   , -1), new Attribute(ATTR.WATER  , -1)])
-		@_foods.push new Food( 9, "体の上虫餌・水", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER   , +1), new Attribute(ATTR.POWER  , -3)])
-		@_foods.push new Food(10, "速の虫餌・流水", [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.WATER   , +2), new Attribute(ATTR.THUNDER, -3)])
-		@_foods.push new Food(11, "速の虫餌・雷"  , [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.THUNDER , +1), new Attribute(ATTR.ICE    , -2)])
-		@_foods.push new Food(12, "速の虫餌・雷光", [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.THUNDER , +2), new Attribute(ATTR.ICE    , -3)])
-		@_foods.push new Food(13, "速の虫餌・氷"  , [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.ICE     , +1), new Attribute(ATTR.DRAGON , -2)])
-		@_foods.push new Food(14, "速の虫餌・氷結", [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.ICE     , +2), new Attribute(ATTR.DRAGON , -3)])
-		@_foods.push new Food(15, "速の上虫餌"    , [new Attribute(ATTR.SPEED  , +2), new Attribute(ATTR.STAMINA , -1), new Attribute(ATTR.THUNDER, -1)])
-		@_foods.push new Food(16, "速の上虫餌・雷", [new Attribute(ATTR.SPEED  , +2), new Attribute(ATTR.THUNDER , +1), new Attribute(ATTR.STAMINA, -3)])
-		@_foods.push new Food(17, "虫餌・火炎"    , [new Attribute(ATTR.FIRE   , +2), new Attribute(ATTR.WATER   , -1), new Attribute(ATTR.ICE    , -1)])
-		@_foods.push new Food(18, "虫餌・流水"    , [new Attribute(ATTR.WATER  , +2), new Attribute(ATTR.THUNDER , -1), new Attribute(ATTR.DRAGON , -1)])
-		@_foods.push new Food(19, "虫餌・雷光"    , [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED   , -1), new Attribute(ATTR.ICE    , -1)])
-		@_foods.push new Food(20, "虫餌・氷結"    , [new Attribute(ATTR.ICE    , +2), new Attribute(ATTR.STAMINA , -1), new Attribute(ATTR.DRAGON , -1)])
-		@_foods.push new Food(21, "虫餌・破龍"    , [new Attribute(ATTR.DRAGON , +2), new Attribute(ATTR.POWER   , -1), new Attribute(ATTR.FIRE   , -1)])
+		@_foods.push new Food( 1,  1, "力の虫餌・火"  , [new Attribute(ATTR.POWER  , +1), new Attribute(ATTR.FIRE    , +1), new Attribute(ATTR.WATER  , -2)])
+		@_foods.push new Food( 2,  2, "力の虫餌・火炎", [new Attribute(ATTR.POWER  , +1), new Attribute(ATTR.FIRE    , +2), new Attribute(ATTR.WATER  , -3)])
+		@_foods.push new Food( 3,  3, "力の上虫餌"    , [new Attribute(ATTR.POWER  , +2), new Attribute(ATTR.SPEED   , -1), new Attribute(ATTR.FIRE   , -1)])
+		@_foods.push new Food( 4,  4, "力の上虫餌・火", [new Attribute(ATTR.POWER  , +2), new Attribute(ATTR.FIRE    , +1), new Attribute(ATTR.SPEED  , -3)])
+		@_foods.push new Food( 5,  6, "体の虫餌・龍"  , [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON  , +1), new Attribute(ATTR.FIRE   , -2)])
+		@_foods.push new Food( 6,  7, "体の虫餌・破龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON  , +2), new Attribute(ATTR.FIRE   , -3)])
+		@_foods.push new Food( 7,  5, "体の虫餌・水"  , [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER   , +1), new Attribute(ATTR.THUNDER, -2)])
+		@_foods.push new Food( 8,  8, "体の上虫餌"    , [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER   , -1), new Attribute(ATTR.WATER  , -1)])
+		@_foods.push new Food( 9,  9, "体の上虫餌・水", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER   , +1), new Attribute(ATTR.POWER  , -3)])
+		@_foods.push new Food(10, 10, "速の虫餌・流水", [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.WATER   , +2), new Attribute(ATTR.THUNDER, -3)])
+		@_foods.push new Food(11, 11, "速の虫餌・雷"  , [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.THUNDER , +1), new Attribute(ATTR.ICE    , -2)])
+		@_foods.push new Food(12, 12, "速の虫餌・雷光", [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.THUNDER , +2), new Attribute(ATTR.ICE    , -3)])
+		@_foods.push new Food(13, 13, "速の虫餌・氷"  , [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.ICE     , +1), new Attribute(ATTR.DRAGON , -2)])
+		@_foods.push new Food(14, 14, "速の虫餌・氷結", [new Attribute(ATTR.SPEED  , +1), new Attribute(ATTR.ICE     , +2), new Attribute(ATTR.DRAGON , -3)])
+		@_foods.push new Food(15, 15, "速の上虫餌"    , [new Attribute(ATTR.SPEED  , +2), new Attribute(ATTR.STAMINA , -1), new Attribute(ATTR.THUNDER, -1)])
+		@_foods.push new Food(16, 16, "速の上虫餌・雷", [new Attribute(ATTR.SPEED  , +2), new Attribute(ATTR.THUNDER , +1), new Attribute(ATTR.STAMINA, -3)])
+		@_foods.push new Food(17, 17, "虫餌・火炎"    , [new Attribute(ATTR.FIRE   , +2), new Attribute(ATTR.WATER   , -1), new Attribute(ATTR.ICE    , -1)])
+		@_foods.push new Food(18, 18, "虫餌・流水"    , [new Attribute(ATTR.WATER  , +2), new Attribute(ATTR.THUNDER , -1), new Attribute(ATTR.DRAGON , -1)])
+		@_foods.push new Food(19, 19, "虫餌・雷光"    , [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED   , -1), new Attribute(ATTR.ICE    , -1)])
+		@_foods.push new Food(20, 20, "虫餌・氷結"    , [new Attribute(ATTR.ICE    , +2), new Attribute(ATTR.STAMINA , -1), new Attribute(ATTR.DRAGON , -1)])
+		@_foods.push new Food(21, 21, "虫餌・破龍"    , [new Attribute(ATTR.DRAGON , +2), new Attribute(ATTR.POWER   , -1), new Attribute(ATTR.FIRE   , -1)])
 
 	create:(name)->
 		for food in @_foods
@@ -836,6 +872,52 @@ class exports.InsectEvolutionItemViewer extends Listener
 		jEvolutionItem.css "font-weight", (if insectEvolutionItem.CheckCurrent() then "bold" else "normal")
 
 ###
+結果のブラウザ保存
+###
+class exports.BrowserSaveData extends ListenedItem
+	constructor:(@groupName, @max)->
+		super()
+		@_saveDatas = []
+		@loadCookie()
+	loadCookie:->
+		@_saveDatas = []
+		for index in [0...@max]
+			@_saveDatas.push {
+				name: ($.cookie("#{@groupName}#{index}_name") ? ""),
+				data: ($.cookie("#{@groupName}#{index}_data") ? ""),
+			}
+		@notifyUpdate()
+	setSaveData:(index, name, data)->
+		@_saveDatas[index] = { name: name, data: data }
+		$.cookie("#{@groupName}#{index}_name", name, { expires: 999 });
+		$.cookie("#{@groupName}#{index}_data", data, { expires: 999 });
+		
+		@notifyUpdate()
+	getSaveData:(index)->
+		return @_saveDatas[index].data
+	getSaveDataNames:->
+		return (saveData.name for saveData in @_saveDatas)
+
+###
+結果のブラウザ保存　表示オブジェクト
+###
+class exports.BrowserSaveDataViewer extends Listener
+	constructor:(elementId)->
+		@jCombo = $("##{elementId}")
+		@jOptions = []
+	onInitialize:(browserSaveData) ->
+		@jCombo.find("option").remove()
+		@jOptions = []
+		for index in [0...browserSaveData.max]
+			option = $("<option value='#{index}'></option>")
+			@jCombo.append(option)
+			@jOptions.push option
+		@onUpdate(browserSaveData)
+	onUpdate:(browserSaveData) ->
+		for name, i in browserSaveData.getSaveDataNames()
+			@jOptions[i].text "保存No#{i+1}: #{name}"
+
+###
 虫種類オブジェクト建築指揮者
 ###
 class exports.InsectTypeFactory
@@ -915,6 +997,7 @@ class exports.InsectBuilder
 	initFoodHistory:->
 		@foodHistory = new FoodHistory()
 		@foodHistory.addListener new FoodHistoryViewer("lstFoodHistory")
+		@foodHistory.addListener new FoodSummaryViewer("lstFoodSummary")
 		@foodHistory.addListener new UndoEnableViewer("btnUndo")
 		@foodHistory.addListener new ResetEnableViewer("btnReset")
 		@foodHistory.addListener new HistoryUrlViewer("txtResultUrl")
@@ -968,6 +1051,7 @@ class exports.InsectBuilder
 		@attributeStatusList[ATTR.POWER  ].addListener insectEvolutionItem
 		@attributeStatusList[ATTR.STAMINA].addListener insectEvolutionItem
 		@attributeStatusList[ATTR.SPEED  ].addListener insectEvolutionItem
+		@attributeStatusList[ATTR.WATER  ].addListener insectEvolutionItem
 		
 		return insectEvolutionItem
 	

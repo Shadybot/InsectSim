@@ -1,0 +1,107 @@
+/* メイン */
+#foodList input {
+	width				: 8em;
+	font-weight			: bold;
+	background-color	: #F0F0F0;
+}
+#foodList input.FoodPower   {
+	color				: firebrick;
+}
+#foodList input.FoodStamina {
+	color				: peru;
+}
+#foodList input.FoodSpeed   {
+	color				: darkslategray;
+}
+#foodList input.FoodElement {
+	color				: #333;
+}
+#txtResultUrl {
+	width				: 35em;
+}
+#cmbResultList {
+	width				: 20em;
+}
+table, tr, td, th, table input {
+	border				: 1px solid;
+}
+div.layout {
+	float				:left;
+	margin-right		: 10px;
+}
+div#lstFoodHistory {
+	width				: 11em;
+	height				: 30em;
+	overflow-y			: scroll;
+	border				: solid 1px black;
+	font-size			: smaller;
+}
+div#lstFoodSummary {
+	width				: 11em;
+	height				: 10em;
+	overflow-y			: scroll;
+	border				: solid 1px black;
+	font-size			: smaller;
+}
+
+.state-highlight {
+	background-color	: lightyellow;
+}
+
+/* ダイアログ */
+div.dialogBackground {
+	display				: none;
+	position			: fixed;
+	left				: 0px;
+	top					: 0px;
+	width				: 100%;
+	height				: 100%;
+	background-color	: rgba(255,255,255,0.5);
+}
+
+div.dialogBody {
+	border				: solid 2px black;
+	padding				: 10px;
+	margin-top			: 100px;
+	margin-left			: auto;
+	margin-right		: auto;
+	width				: 700px;
+	height				; auto;
+	background-color	: white;
+}
+div.dialogBody h1 {
+	font-size			: 14pt;
+	background-color	: lightgray;
+	padding-top			: 5px;
+	padding-bottom		: 5px;
+	margin-top			: 0px;
+	margin-bottom		: 0px;
+}
+div.dialogBody div.InfoArea {
+	margin-top			: 5px;
+	font-size			: smaller;
+	font-weight			: bold;
+	color				: dimgray;
+}
+div.dialogBody div.TextArea input {
+	margin-top			: 5px;
+}
+div.dialogBody div.TextArea input {
+	width				: 2em;
+	text-align			: right;
+	margin-right		: 10px;
+}
+div.dialogBody div.ComboArea {
+	margin-top			: 10px;
+}
+div.dialogBody #cmbInsectType {
+	width				: 22em;
+}
+div.dialogBody #lblErrorProvider {
+	font-size			: smaller;
+	font-weight			: bold;
+	color				: red;
+}
+div.dialogBody div.ButtonArea {
+	margin-top			: 10px;
+}

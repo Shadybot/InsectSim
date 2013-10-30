@@ -1,5 +1,6 @@
 (function() {
-  var FoodHistoryItem, HistoryItem, HistoryItemFactory, HistorySerializer, HistoryUrlViewer, InitHistoryItem, InsectType, LevelUpHistoryItem, ListenedItem, Listener, SeveralTimesList, StrCompresser, UndoAbleObject, UndoMemory, exports,
+  var FoodHistoryItem, HistoryItem, HistoryItemFactory, HistorySerializer, HistoryUrlViewer, InitHistoryItem, InsectType, LevelUpHistoryItem, ListenedItem, Listener, SetEffect, SeveralTimesList, StrCompresser, UndoAbleObject, UndoMemory, exports,
+    __slice = [].slice,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -28,6 +29,25 @@
 
 
   exports.LEVEL_LIMIT_LIST = [15, 30, 45, 54, 63, 72, 81, 90];
+
+  /*
+  エフェクト表示
+  */
+
+
+  SetEffect = function() {
+    var jItem, jItems, _i, _len, _results;
+    jItems = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    _results = [];
+    for (_i = 0, _len = jItems.length; _i < _len; _i++) {
+      jItem = jItems[_i];
+      jItem.addClass("state-highlight");
+      _results.push(setTimeout(function() {
+        return jItem.removeClass("state-highlight");
+      }, 500));
+    }
+    return _results;
+  };
 
   /*
   イベントを呼ぶことが出来るオブジェクト
@@ -174,7 +194,8 @@
       this.jName.text(attr.name);
       this.jStatus.text(attr.status);
       this.jGrowthPoint.text(attr.growthPoint);
-      return this.jRequirePoint.text(attr.requirePoint);
+      this.jRequirePoint.text(attr.requirePoint);
+      return SetEffect(this.jName);
     };
 
     return AttributeStatusViewer;
@@ -287,7 +308,8 @@
         if (index < allPoint.level - 1) {
           _results.push($(cell).text(allPoint.levelLimitList[index]));
         } else if (index === allPoint.level - 1) {
-          _results.push($(cell).text(allPoint.getAllPoint()));
+          $(cell).text(allPoint.getAllPoint());
+          _results.push(SetEffect($(cell)));
         } else if (index > allPoint.level - 1) {
           _results.push($(cell).text("-"));
         } else {
@@ -416,6 +438,10 @@
 
     FoodHistoryItem.prototype.toSerial = function() {
       return FoodHistoryItem._serialBaseChars[this.food.id];
+    };
+
+    FoodHistoryItem.prototype.getOrder = function() {
+      return this.food.orderNo;
     };
 
     FoodHistoryItem.isThisType = function(char) {
@@ -646,34 +672,76 @@
     __extends(FoodHistoryViewer, _super);
 
     function FoodHistoryViewer(elementId) {
-      this.elementId = elementId;
       FoodHistoryViewer.__super__.constructor.call(this);
+      this.jList = $("#" + elementId);
     }
 
     FoodHistoryViewer.prototype.onInitialize = function(foodHistory) {
-      return $("#" + this.elementId + " > option").remove();
+      return this.jList.text("");
     };
 
     FoodHistoryViewer.prototype.onUpdate = function(foodHistory) {
-      var historyItem, item, jList, severalTimesList, _i, _j, _len, _len1, _ref, _ref1, _results;
-      jList = $("#" + this.elementId);
-      $("option", jList).remove();
+      var historyItem, item, severalTimesList, _i, _j, _len, _len1, _ref, _ref1, _results;
       severalTimesList = new SeveralTimesList();
       _ref = foodHistory.history;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         historyItem = _ref[_i];
         severalTimesList.push(historyItem.name);
       }
+      this.jList.text("");
       _ref1 = severalTimesList.list;
       _results = [];
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         item = _ref1[_j];
-        _results.push(jList.append($("<option>").html(item)));
+        _results.push(this.jList.append($("<span>").html(item).append($("<br>"))));
       }
       return _results;
     };
 
     return FoodHistoryViewer;
+
+  })(Listener);
+
+  /*
+  餌合計オブジェクト　表示用オブジェクト
+  */
+
+
+  exports.FoodSummaryViewer = (function(_super) {
+    __extends(FoodSummaryViewer, _super);
+
+    function FoodSummaryViewer(elementId) {
+      FoodSummaryViewer.__super__.constructor.call(this);
+      this.jList = $("#" + elementId);
+    }
+
+    FoodSummaryViewer.prototype.onInitialize = function(foodHistory) {
+      return this.jList.text("");
+    };
+
+    FoodSummaryViewer.prototype.onUpdate = function(foodHistory) {
+      var historyItem, item, severalTimesList, summaryList, _i, _j, _len, _len1, _ref, _results;
+      severalTimesList = new SeveralTimesList();
+      summaryList = foodHistory.history.filter(function(item) {
+        return item instanceof FoodHistoryItem;
+      }).sort(function(item1, item2) {
+        return item1.getOrder() - item2.getOrder();
+      });
+      for (_i = 0, _len = summaryList.length; _i < _len; _i++) {
+        historyItem = summaryList[_i];
+        severalTimesList.push(historyItem.name);
+      }
+      this.jList.text("");
+      _ref = severalTimesList.list;
+      _results = [];
+      for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+        item = _ref[_j];
+        _results.push(this.jList.append($("<span>").html(item).append($("<br>"))));
+      }
+      return _results;
+    };
+
+    return FoodSummaryViewer;
 
   })(Listener);
 
@@ -968,13 +1036,13 @@
       return level;
     };
 
-    Insect.prototype.getHistory = function() {
+    Insect.prototype.getSerial = function() {
       var serializer;
       serializer = new HistorySerializer();
       return serializer.getSerial(this.foodHistory.history);
     };
 
-    Insect.prototype.setHistory = function(serial) {
+    Insect.prototype.setSerial = function(serial) {
       var historyItem, historyItems, serializer, _i, _len, _results;
       serializer = new HistorySerializer();
       historyItems = serializer.readFromSerial(serial);
@@ -1022,9 +1090,10 @@
 
 
   exports.Food = (function() {
-    function Food(id, name, attributes) {
+    function Food(id, orderNo, name, attributes) {
       var allPoint, attribute, _i, _len;
       this.id = id;
+      this.orderNo = orderNo;
       this.name = name;
       this.attributes = attributes;
       allPoint = 0;
@@ -1069,27 +1138,27 @@
   exports.FoodFactory = (function() {
     function FoodFactory() {
       this._foods = [];
-      this._foods.push(new Food(1, "力の虫餌・火", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.WATER, -2)]));
-      this._foods.push(new Food(2, "力の虫餌・火炎", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -3)]));
-      this._foods.push(new Food(3, "力の上虫餌", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.FIRE, -1)]));
-      this._foods.push(new Food(4, "力の上虫餌・火", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.SPEED, -3)]));
-      this._foods.push(new Food(5, "体の虫餌・龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +1), new Attribute(ATTR.FIRE, -2)]));
-      this._foods.push(new Food(6, "体の虫餌・破龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.FIRE, -3)]));
-      this._foods.push(new Food(7, "体の虫餌・水", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.THUNDER, -2)]));
-      this._foods.push(new Food(8, "体の上虫餌", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.WATER, -1)]));
-      this._foods.push(new Food(9, "体の上虫餌・水", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.POWER, -3)]));
-      this._foods.push(new Food(10, "速の虫餌・流水", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -3)]));
-      this._foods.push(new Food(11, "速の虫餌・雷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.ICE, -2)]));
-      this._foods.push(new Food(12, "速の虫餌・雷光", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.ICE, -3)]));
-      this._foods.push(new Food(13, "速の虫餌・氷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +1), new Attribute(ATTR.DRAGON, -2)]));
-      this._foods.push(new Food(14, "速の虫餌・氷結", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +2), new Attribute(ATTR.DRAGON, -3)]));
-      this._foods.push(new Food(15, "速の上虫餌", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.THUNDER, -1)]));
-      this._foods.push(new Food(16, "速の上虫餌・雷", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.STAMINA, -3)]));
-      this._foods.push(new Food(17, "虫餌・火炎", [new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -1), new Attribute(ATTR.ICE, -1)]));
-      this._foods.push(new Food(18, "虫餌・流水", [new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(19, "虫餌・雷光", [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.ICE, -1)]));
-      this._foods.push(new Food(20, "虫餌・氷結", [new Attribute(ATTR.ICE, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(21, "虫餌・破龍", [new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.FIRE, -1)]));
+      this._foods.push(new Food(1, 1, "力の虫餌・火", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.WATER, -2)]));
+      this._foods.push(new Food(2, 2, "力の虫餌・火炎", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -3)]));
+      this._foods.push(new Food(3, 3, "力の上虫餌", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.FIRE, -1)]));
+      this._foods.push(new Food(4, 4, "力の上虫餌・火", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.SPEED, -3)]));
+      this._foods.push(new Food(5, 6, "体の虫餌・龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +1), new Attribute(ATTR.FIRE, -2)]));
+      this._foods.push(new Food(6, 7, "体の虫餌・破龍", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.FIRE, -3)]));
+      this._foods.push(new Food(7, 5, "体の虫餌・水", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.THUNDER, -2)]));
+      this._foods.push(new Food(8, 8, "体の上虫餌", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.WATER, -1)]));
+      this._foods.push(new Food(9, 9, "体の上虫餌・水", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.POWER, -3)]));
+      this._foods.push(new Food(10, 10, "速の虫餌・流水", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -3)]));
+      this._foods.push(new Food(11, 11, "速の虫餌・雷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.ICE, -2)]));
+      this._foods.push(new Food(12, 12, "速の虫餌・雷光", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.ICE, -3)]));
+      this._foods.push(new Food(13, 13, "速の虫餌・氷", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +1), new Attribute(ATTR.DRAGON, -2)]));
+      this._foods.push(new Food(14, 14, "速の虫餌・氷結", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +2), new Attribute(ATTR.DRAGON, -3)]));
+      this._foods.push(new Food(15, 15, "速の上虫餌", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.THUNDER, -1)]));
+      this._foods.push(new Food(16, 16, "速の上虫餌・雷", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.STAMINA, -3)]));
+      this._foods.push(new Food(17, 17, "虫餌・火炎", [new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -1), new Attribute(ATTR.ICE, -1)]));
+      this._foods.push(new Food(18, 18, "虫餌・流水", [new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -1), new Attribute(ATTR.DRAGON, -1)]));
+      this._foods.push(new Food(19, 19, "虫餌・雷光", [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.ICE, -1)]));
+      this._foods.push(new Food(20, 20, "虫餌・氷結", [new Attribute(ATTR.ICE, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.DRAGON, -1)]));
+      this._foods.push(new Food(21, 21, "虫餌・破龍", [new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.FIRE, -1)]));
     }
 
     FoodFactory.prototype.create = function(name) {
@@ -1513,6 +1582,110 @@
   })(Listener);
 
   /*
+  結果のブラウザ保存
+  */
+
+
+  exports.BrowserSaveData = (function(_super) {
+    __extends(BrowserSaveData, _super);
+
+    function BrowserSaveData(groupName, max) {
+      this.groupName = groupName;
+      this.max = max;
+      BrowserSaveData.__super__.constructor.call(this);
+      this._saveDatas = [];
+      this.loadCookie();
+    }
+
+    BrowserSaveData.prototype.loadCookie = function() {
+      var index, _i, _ref, _ref1, _ref2;
+      this._saveDatas = [];
+      for (index = _i = 0, _ref = this.max; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
+        this._saveDatas.push({
+          name: (_ref1 = $.cookie("" + this.groupName + index + "_name")) != null ? _ref1 : "",
+          data: (_ref2 = $.cookie("" + this.groupName + index + "_data")) != null ? _ref2 : ""
+        });
+      }
+      return this.notifyUpdate();
+    };
+
+    BrowserSaveData.prototype.setSaveData = function(index, name, data) {
+      this._saveDatas[index] = {
+        name: name,
+        data: data
+      };
+      $.cookie("" + this.groupName + index + "_name", name, {
+        expires: 999
+      });
+      $.cookie("" + this.groupName + index + "_data", data, {
+        expires: 999
+      });
+      return this.notifyUpdate();
+    };
+
+    BrowserSaveData.prototype.getSaveData = function(index) {
+      return this._saveDatas[index].data;
+    };
+
+    BrowserSaveData.prototype.getSaveDataNames = function() {
+      var saveData;
+      return (function() {
+        var _i, _len, _ref, _results;
+        _ref = this._saveDatas;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          saveData = _ref[_i];
+          _results.push(saveData.name);
+        }
+        return _results;
+      }).call(this);
+    };
+
+    return BrowserSaveData;
+
+  })(ListenedItem);
+
+  /*
+  結果のブラウザ保存　表示オブジェクト
+  */
+
+
+  exports.BrowserSaveDataViewer = (function(_super) {
+    __extends(BrowserSaveDataViewer, _super);
+
+    function BrowserSaveDataViewer(elementId) {
+      this.jCombo = $("#" + elementId);
+      this.jOptions = [];
+    }
+
+    BrowserSaveDataViewer.prototype.onInitialize = function(browserSaveData) {
+      var index, option, _i, _ref;
+      this.jCombo.find("option").remove();
+      this.jOptions = [];
+      for (index = _i = 0, _ref = browserSaveData.max; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
+        option = $("<option value='" + index + "'></option>");
+        this.jCombo.append(option);
+        this.jOptions.push(option);
+      }
+      return this.onUpdate(browserSaveData);
+    };
+
+    BrowserSaveDataViewer.prototype.onUpdate = function(browserSaveData) {
+      var i, name, _i, _len, _ref, _results;
+      _ref = browserSaveData.getSaveDataNames();
+      _results = [];
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        name = _ref[i];
+        _results.push(this.jOptions[i].text("保存No" + (i + 1) + ": " + name));
+      }
+      return _results;
+    };
+
+    return BrowserSaveDataViewer;
+
+  })(Listener);
+
+  /*
   虫種類オブジェクト建築指揮者
   */
 
@@ -1609,6 +1782,7 @@
     InsectBuilder.prototype.initFoodHistory = function() {
       this.foodHistory = new FoodHistory();
       this.foodHistory.addListener(new FoodHistoryViewer("lstFoodHistory"));
+      this.foodHistory.addListener(new FoodSummaryViewer("lstFoodSummary"));
       this.foodHistory.addListener(new UndoEnableViewer("btnUndo"));
       this.foodHistory.addListener(new ResetEnableViewer("btnReset"));
       return this.foodHistory.addListener(new HistoryUrlViewer("txtResultUrl"));
@@ -1665,6 +1839,7 @@
       this.attributeStatusList[ATTR.POWER].addListener(insectEvolutionItem);
       this.attributeStatusList[ATTR.STAMINA].addListener(insectEvolutionItem);
       this.attributeStatusList[ATTR.SPEED].addListener(insectEvolutionItem);
+      this.attributeStatusList[ATTR.WATER].addListener(insectEvolutionItem);
       return insectEvolutionItem;
     };
 

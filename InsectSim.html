@@ -3,87 +3,11 @@
 <head>
 <meta charset="utf-8">
 <title>虫餌シミュレータ</title>
+<link rel="stylesheet" type="text/css" href="InsectSim.css">
 <script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.cookie.js"></script>
 <script src="./InsectSimModel.js"></script>
 <script src="./InsectSim.js"></script>
-<style name="MainStyle">
-#foodList input {
-	width: 8em;
-}
-#txtResultUrl {
-	width: 35em;
-}
-table, tr, td, th, table input {
-	border: 1px solid;
-}
-div.layout {
-	float:left;
-	margin-right: 10px;
-}
-select#lstFoodHistory {
-	width: 11em;
-	height: 30em;
-}
-</style>
-<style name="InitDialogStyle">
-div.dialogBackground {
-	display				: none;
-	position			: fixed;
-	left				: 0px;
-	top					: 0px;
-	width				: 100%;
-	height				: 100%;
-	background-color	: rgba(255,255,255,0.5);
-}
-
-div.dialogBody {
-	border				: solid 2px black;
-	padding				: 10px;
-	margin-top			: 100px;
-	margin-left			: auto;
-	margin-right		: auto;
-	width				: 700px;
-	height				; auto;
-	background-color	: white;
-}
-div.dialogBody h1 {
-	font-size			: 14pt;
-	background-color	: lightgray;
-	padding-top			: 5px;
-	padding-bottom		: 5px;
-	margin-top			: 0px;
-	margin-bottom		: 0px;
-}
-div.dialogBody div.InfoArea {
-	margin-top			: 5px;
-	font-size			: smaller;
-	font-weight			: bold;
-	color				: dimgray;
-}
-div.dialogBody div.TextArea input {
-	margin-top			: 5px;
-}
-div.dialogBody div.TextArea input {
-	width				: 2em;
-	text-align			: right;
-	margin-right		: 10px;
-}
-div.dialogBody div.ComboArea {
-	margin-top			: 10px;
-}
-div.dialogBody #cmbInsectType {
-	width				: 22em;
-}
-div.dialogBody #lblErrorProvider {
-	font-size			: smaller;
-	font-weight			: bold;
-	color				: red;
-}
-div.dialogBody div.ButtonArea {
-	margin-top			: 10px;
-}
-</style>
-
 </head>
 <body>
 
@@ -97,27 +21,27 @@ div.dialogBody div.ButtonArea {
 	<th>下がる能力1</th>
 	<th>下がる能力2</th>
 </tr>
-<tr><td><input type="button" value="力の虫餌・火"></td><td>パワー+1</td><td>火属性+1</td><td>水属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="力の虫餌・火炎"></td><td>パワー+1</td><td>火属性+2</td><td>水属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="力の上虫餌"></td><td>パワー+2</td><td>&nbsp;</td><td>スピード-1</td><td>火属性-1</td></tr>
-<tr><td><input type="button" value="力の上虫餌・火"></td><td>パワー+2</td><td>火属性+1</td><td>スピード-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の虫餌・水"></td><td>スタミナ+1</td><td>水属性+1</td><td>雷属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の虫餌・龍"></td><td>スタミナ+1</td><td>龍属性+1</td><td>火属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の虫餌・破龍"></td><td>スタミナ+1</td><td>龍属性+2</td><td>火属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="体の上虫餌"></td><td>スタミナ+2</td><td>&nbsp;</td><td>パワー-1</td><td>水属性-1</td></tr>
-<tr><td><input type="button" value="体の上虫餌・水"></td><td>スタミナ+2</td><td>水属性+1</td><td>パワー-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・流水"></td><td>スピード+1</td><td>水属性+2</td><td>雷属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・雷"></td><td>スピード+1</td><td>雷属性+1</td><td>氷属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・雷光"></td><td>スピード+1</td><td>雷属性+2</td><td>氷属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・氷"></td><td>スピード+1</td><td>氷属性+1</td><td>龍属性-2</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の虫餌・氷結"></td><td>スピード+1</td><td>氷属性+2</td><td>龍属性-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="速の上虫餌"></td><td>スピード+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>雷属性-1</td></tr>
-<tr><td><input type="button" value="速の上虫餌・雷"></td><td>スピード+2</td><td>雷属性+1</td><td>スタミナ-3</td><td>&nbsp;</td></tr>
-<tr><td><input type="button" value="虫餌・火炎"></td><td>火属性+2</td><td>&nbsp;</td><td>水属性-1</td><td>氷属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・流水"></td><td>水属性+2</td><td>&nbsp;</td><td>雷属性-1</td><td>龍属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・雷光"></td><td>雷属性+2</td><td>&nbsp;</td><td>スピード-1</td><td>氷属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・氷結"></td><td>氷属性+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>龍属性-1</td></tr>
-<tr><td><input type="button" value="虫餌・破龍"></td><td>龍属性+2</td><td>&nbsp;</td><td>パワー-1</td><td>火属性-1</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の虫餌・火"></td><td>パワー+1</td><td>火属性+1</td><td>水属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の虫餌・火炎"></td><td>パワー+1</td><td>火属性+2</td><td>水属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の上虫餌"></td><td>パワー+2</td><td>&nbsp;</td><td>スピード-1</td><td>火属性-1</td></tr>
+<tr><td><input type="button" class="FoodPower"   value="力の上虫餌・火"></td><td>パワー+2</td><td>火属性+1</td><td>スピード-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の虫餌・水"></td><td>スタミナ+1</td><td>水属性+1</td><td>雷属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の虫餌・龍"></td><td>スタミナ+1</td><td>龍属性+1</td><td>火属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の虫餌・破龍"></td><td>スタミナ+1</td><td>龍属性+2</td><td>火属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の上虫餌"></td><td>スタミナ+2</td><td>&nbsp;</td><td>パワー-1</td><td>水属性-1</td></tr>
+<tr><td><input type="button" class="FoodStamina" value="体の上虫餌・水"></td><td>スタミナ+2</td><td>水属性+1</td><td>パワー-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・流水"></td><td>スピード+1</td><td>水属性+2</td><td>雷属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・雷"></td><td>スピード+1</td><td>雷属性+1</td><td>氷属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・雷光"></td><td>スピード+1</td><td>雷属性+2</td><td>氷属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・氷"></td><td>スピード+1</td><td>氷属性+1</td><td>龍属性-2</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の虫餌・氷結"></td><td>スピード+1</td><td>氷属性+2</td><td>龍属性-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の上虫餌"></td><td>スピード+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>雷属性-1</td></tr>
+<tr><td><input type="button" class="FoodSpeed"   value="速の上虫餌・雷"></td><td>スピード+2</td><td>雷属性+1</td><td>スタミナ-3</td><td>&nbsp;</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・火炎"></td><td>火属性+2</td><td>&nbsp;</td><td>水属性-1</td><td>氷属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・流水"></td><td>水属性+2</td><td>&nbsp;</td><td>雷属性-1</td><td>龍属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・雷光"></td><td>雷属性+2</td><td>&nbsp;</td><td>スピード-1</td><td>氷属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・氷結"></td><td>氷属性+2</td><td>&nbsp;</td><td>スタミナ-1</td><td>龍属性-1</td></tr>
+<tr><td><input type="button" class="FoodElement" value="虫餌・破龍"></td><td>龍属性+2</td><td>&nbsp;</td><td>パワー-1</td><td>火属性-1</td></tr>
 </table>
 <div id="levelUpButtons">
 <input id="btnLevelUp0" type="button" value="-">
@@ -132,7 +56,10 @@ div.dialogBody div.ButtonArea {
 </div>
 <div>
 <h1>シミュレーション結果</h1>
-<input id="txtResultUrl" type="text">
+<input id="txtResultUrl" type="text"><br>
+<select id="cmbResultList"></select>
+<input id="btnResultSave" type="button" value="保存">
+<input id="btnResultLoad" type="button" value="読込">
 </div>
 
 </div>
@@ -190,9 +117,9 @@ div.dialogBody div.ButtonArea {
 
 <div class="layout">
 <h1>履歴</h1>
-<select id="lstFoodHistory" size=2>
-	<option>読み込み中</option>
-</select>
+<div id="lstFoodHistory">読み込み中</div>
+<h1>餌合計</h1>
+<div id="lstFoodSummary"></div>
 </div>
 
 <div style="clear:both;">

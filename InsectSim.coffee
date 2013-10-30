@@ -1,11 +1,7 @@
 # ◆今後追加したい機能
 
-# 保存呼び出し
-# url保存
-# サマリー
-# 一覧をfacrotyから出すようにする
-# 餌に色を付ける
-# スマホ版
+#・jQueryUIでデザインする
+#・スマホ版のページをjQueryMobileで作成
 
 exports = @
 
@@ -15,7 +11,7 @@ $ ->
 	insect = insectBuildDirector.construct()
 	
 	if location.search.length >= 2
-		insect.setHistory(location.search.substring(1))
+		insect.setSerial(location.search.substring(1))
 
 	$("#foodList input:button").click ->
 		foodFactory = new FoodFactory()
@@ -31,6 +27,23 @@ $ ->
 	$("#btnReset").click ->
 		if confirm("リセットします。よろしいですか？") == false then return
 		insect.reset()
+
+	# ブラウザ保存
+	browserSaveData = new BrowserSaveData("result", 8)
+	browserSaveData.addListener new BrowserSaveDataViewer("cmbResultList")
+
+	$("#btnResultSave").click ->
+		index = $("#cmbResultList").val()
+
+		name = prompt("保存名：")
+		if not name? then return
+		
+		browserSaveData.setSaveData index, name, insect.getSerial()
+
+	$("#btnResultLoad").click ->
+		index = $("#cmbResultList").val()
+		insect.setSerial browserSaveData.getSaveData(index)
+
 
 	# ダイアログ
 	initDialogBuildDirector = new InitDialogBuildDirector(new InitDialogBuilder())
