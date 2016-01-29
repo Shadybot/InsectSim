@@ -23,7 +23,7 @@
       return insect.undo();
     });
     $("#btnReset").click(function() {
-      if (confirm("リセットします。よろしいですか？") === false) {
+      if (confirm("This will reset the simulator. Is this okay?") === false) {
         return;
       }
       return insect.reset();
@@ -33,7 +33,7 @@
     $("#btnResultSave").click(function() {
       var index, name;
       index = $("#cmbResultList").val();
-      name = prompt("保存名：");
+      name = prompt("Save name: ");
       if (name == null) {
         return;
       }
