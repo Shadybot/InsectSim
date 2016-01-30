@@ -8,4 +8,3 @@ To do:
 * implement 4G changes
 * research MHX changes
   
-[Translation sheet](https://docs.google.com/spreadsheets/d/1fVJ2eAtS1vWQCxpIEioA8ahEgLEFwg4-7g2GKKs2DxA/edit?usp=sharing)
