@@ -510,7 +510,7 @@
       this.insectType = insectType;
       this.growthPoints = growthPoints;
       InitHistoryItem.__super__.constructor.call(this);
-      this.name = "【値入力 Lv" + level + ":" + insectType.shortName + "】";
+      this.name = "[Value input Lv" + level + ":" + insectType.shortName + "]";
     }
 
     InitHistoryItem.prototype.toSerial = function() {
@@ -1694,18 +1694,18 @@
   exports.InsectTypeFactory = (function() {
     function InsectTypeFactory() {
       var c1, c1_1, c1_2, c2, c2_1, c2_2, c3, c3_1, c3_2, c4, c4_1;
-      this.root = new InsectType(1, "マルドローン/クルドローン", "(New)", 1, 60, 60, 60, "None");
-      c1 = new InsectType(2, "ザミールビートル/アルマスタッグ", "(ATK)", 4, 78, 60, 60, "ATK Up S");
-      c1_1 = new InsectType(3, "ケーニヒゴアビートル/モナークブルスタッグ", "(ATK＋)", 7, 96, 60, 60, "ATK Up L");
-      c1_2 = new InsectType(4, "フィルカーノ/レジナヴァランテ", "(ATK/Rec)", 7, 87, 66, 63, "ATK Up M / Rec Up S");
-      c2 = new InsectType(5, "ハルキータ/ガシルドーレ", "(STAM)", 4, 60, 78, 60, "STAM Up S");
-      c2_1 = new InsectType(6, "ドルンキータ/ドゥンクラーブ", "(STAM＋)", 7, 60, 96, 60, "STAM Up L");
-      c2_2 = new InsectType(7, "アルジョアーニャ/ウカドゥーレ", "(STAM/Rec)", 7, 69, 84, 63, "STAM Up M / Rec Up S");
-      c3 = new InsectType(8, "ガルーヘル/カゼキリバネ", "(SPD)", 4, 60, 60, 78, "SPD Up S");
-      c3_1 = new InsectType(9, "メイヴァーチル/オオシナト", "(SPD＋)", 7, 60, 60, 96, "SPD Up L");
-      c3_2 = new InsectType(10, "ヴァンリエール/シナトモドキ", "(SPD/Rec)", 7, 69, 66, 81, "SPD Up M / Rec Up S");
-      c4 = new InsectType(11, "エボマルドローン/エボクルドローン", "(BAL)", 4, 69, 66, 63, "All Up S");
-      c4_1 = new InsectType(12, "アルジャーロン/エルドラーン", "(BAL＋)", 7, 78, 72, 66, "All Up M / Rec Up L");
+      this.root = new InsectType(1, "Mauldrone/Culldrone", "(New)", 1, 60, 60, 60, "None");
+      c1 = new InsectType(2, "Foebeetle/Alucanid", "(ATK)", 4, 78, 60, 60, "ATK Up S");
+      c1_1 = new InsectType(3, "Carnage Beetle/Monarch Alucanid", "(ATK＋)", 7, 96, 60, 60, "ATK Up L");
+      c1_2 = new InsectType(4, "Bonnetfille/Empresswing", "(ATK/Rec)", 7, 87, 66, 63, "ATK Up M / Rec Up S");
+      c2 = new InsectType(5, "Ladytarge/Rigiprayne", "(STAM)", 4, 60, 78, 60, "STAM Up S");
+      c2_1 = new InsectType(6, "Ladypavise/Cancadaman", "(STAM＋)", 7, 60, 96, 60, "STAM Up L");
+      c2_2 = new InsectType(7, "Arkmaiden/Fiddlebrix", "(STAM/Rec)", 7, 69, 84, 63, "STAM Up M / Rec Up S");
+      c3 = new InsectType(8, "Gullshad/Windchopper", "(SPD)", 4, 60, 60, 78, "SPD Up S");
+      c3_1 = new InsectType(9, "Bullshroud/Grancathar", "(SPD＋)", 7, 60, 60, 96, "SPD Up L");
+      c3_2 = new InsectType(10, "Whisperwesp/Pseudocath", "(SPD/Rec)", 7, 69, 66, 81, "SPD Up M / Rec Up S");
+      c4 = new InsectType(11, "Pummeldrone/Reaverdrone", "(BAL)", 4, 69, 66, 63, "All Up S");
+      c4_1 = new InsectType(12, "Arginesse/Escarad", "(BAL＋)", 7, 78, 72, 66, "All Up M / Rec Up L");
       this.root.addChild(c1);
       c1.addChild(c1_1);
       c1.addChild(c1_2);
@@ -1986,7 +1986,7 @@
       if (this.isValid()) {
         this.jErrorProvider.text(" ");
       } else {
-        this.jErrorProvider.text("※合計 " + this.max + " 以内で入力してください。");
+        this.jErrorProvider.text("※A total of " + this.max + " or less needs to be entered. ");
       }
       return this.notifyUpdate();
     };
