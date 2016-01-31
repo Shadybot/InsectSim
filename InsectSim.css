@@ -1,6 +1,6 @@
 /* メイン */
 #foodList input {
-	width				: 8em;
+	width				: 100%;
 	font-weight			: bold;
 	background-color	: #F0F0F0;
 }
@@ -30,14 +30,14 @@ div.layout {
 	margin-right		: 10px;
 }
 div#lstFoodHistory {
-	width				: 11em;
+	width				: 13em;
 	height				: 30em;
 	overflow-y			: scroll;
 	border				: solid 1px black;
 	font-size			: smaller;
 }
 div#lstFoodSummary {
-	width				: 11em;
+	width				: 13em;
 	height				: 10em;
 	overflow-y			: scroll;
 	border				: solid 1px black;

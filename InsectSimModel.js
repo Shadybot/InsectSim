@@ -1380,7 +1380,7 @@
         button = _ref[i];
         insectType = nextInsectTypes[i];
         if (i < nextInsectTypes.length) {
-          _results.push(button.set("レベルアップ" + insectType.shortName, insectType));
+          _results.push(button.set("Level Up" + insectType.shortName, insectType));
         } else {
           _results.push(button.set("-", new NullInsectType()));
         }
@@ -1676,7 +1676,7 @@
       _results = [];
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         name = _ref[i];
-        _results.push(this.jOptions[i].text("保存No" + (i + 1) + ": " + name));
+        _results.push(this.jOptions[i].text("FileNo" + (i + 1) + ": " + name));
       }
       return _results;
     };
@@ -1694,18 +1694,18 @@
   exports.InsectTypeFactory = (function() {
     function InsectTypeFactory() {
       var c1, c1_1, c1_2, c2, c2_1, c2_2, c3, c3_1, c3_2, c4, c4_1;
-      this.root = new InsectType(1, "マルドローン/クルドローン", "(初期)", 1, 60, 60, 60, "無し");
-      c1 = new InsectType(2, "ザミールビートル/アルマスタッグ", "(攻)", 4, 78, 60, 60, "攻撃UP【小】");
-      c1_1 = new InsectType(3, "ケーニヒゴアビートル/モナークブルスタッグ", "(攻＋)", 7, 96, 60, 60, "攻撃UP【大】");
-      c1_2 = new InsectType(4, "フィルカーノ/レジナヴァランテ", "(攻回)", 7, 87, 66, 63, "攻撃UP【中】 / 回復UP【小】");
-      c2 = new InsectType(5, "ハルキータ/ガシルドーレ", "(体)", 4, 60, 78, 60, "スタミナUP【小】");
-      c2_1 = new InsectType(6, "ドルンキータ/ドゥンクラーブ", "(体＋)", 7, 60, 96, 60, "スタミナUP【大】");
-      c2_2 = new InsectType(7, "アルジョアーニャ/ウカドゥーレ", "(体回)", 7, 69, 84, 63, "スタミナUP【中】 / 回復UP【小】");
-      c3 = new InsectType(8, "ガルーヘル/カゼキリバネ", "(速)", 4, 60, 60, 78, "スピードUP【小】");
-      c3_1 = new InsectType(9, "メイヴァーチル/オオシナト", "(速＋)", 7, 60, 60, 96, "スピードUP【大】");
-      c3_2 = new InsectType(10, "ヴァンリエール/シナトモドキ", "(速回)", 7, 69, 66, 81, "スピードUP【中】 / 回復UP【小】");
-      c4 = new InsectType(11, "エボマルドローン/エボクルドローン", "(汎)", 4, 69, 66, 63, "全ステータスUP【小】");
-      c4_1 = new InsectType(12, "アルジャーロン/エルドラーン", "(汎＋)", 7, 78, 72, 66, "全ステータスUP【中】 / 回復UP【大】");
+      this.root = new InsectType(1, "マルドローン/クルドローン", "(New)", 1, 60, 60, 60, "None");
+      c1 = new InsectType(2, "ザミールビートル/アルマスタッグ", "(ATK)", 4, 78, 60, 60, "ATK Up S");
+      c1_1 = new InsectType(3, "ケーニヒゴアビートル/モナークブルスタッグ", "(ATK＋)", 7, 96, 60, 60, "ATK Up L");
+      c1_2 = new InsectType(4, "フィルカーノ/レジナヴァランテ", "(ATK/Rec)", 7, 87, 66, 63, "ATK Up M / Rec Up S");
+      c2 = new InsectType(5, "ハルキータ/ガシルドーレ", "(STAM)", 4, 60, 78, 60, "STAM Up S");
+      c2_1 = new InsectType(6, "ドルンキータ/ドゥンクラーブ", "(STAM＋)", 7, 60, 96, 60, "STAM Up L");
+      c2_2 = new InsectType(7, "アルジョアーニャ/ウカドゥーレ", "(STAM/Rec)", 7, 69, 84, 63, "STAM Up M / Rec Up S");
+      c3 = new InsectType(8, "ガルーヘル/カゼキリバネ", "(SPD)", 4, 60, 60, 78, "SPD Up S");
+      c3_1 = new InsectType(9, "メイヴァーチル/オオシナト", "(SPD＋)", 7, 60, 60, 96, "SPD Up L");
+      c3_2 = new InsectType(10, "ヴァンリエール/シナトモドキ", "(SPD/Rec)", 7, 69, 66, 81, "SPD Up M / Rec Up S");
+      c4 = new InsectType(11, "エボマルドローン/エボクルドローン", "(BAL)", 4, 69, 66, 63, "All Up S");
+      c4_1 = new InsectType(12, "アルジャーロン/エルドラーン", "(BAL＋)", 7, 78, 72, 66, "All Up M / Rec Up L");
       this.root.addChild(c1);
       c1.addChild(c1_1);
       c1.addChild(c1_2);
