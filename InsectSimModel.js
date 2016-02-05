@@ -761,8 +761,8 @@
         this.list.push(item);
         return;
       }
-      lastItem = this.list[this.list.length - 1];
-      lastItemName = lastItem.match(new RegExp("^[^ ]+"))[0];
+      lastItem = this.list[this.list.length - 1]; 
+	  lastItemName = lastItem.match(new RegExp("^[^×]+"))[0].trim(); 
       if (lastItemName !== item) {
         this.list.push(item);
         return;
