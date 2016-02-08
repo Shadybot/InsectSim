@@ -1160,13 +1160,13 @@
       this._foods.push(new Food(20, 20, "Fire+", [new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -1), new Attribute(ATTR.ICE, -1)]));
       this._foods.push(new Food(21, 21, "Fire++", [new Attribute(ATTR.FIRE, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
       this._foods.push(new Food(22, 22, "Water+", [new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(23, 23, "Fire+", [new Attribute(ATTR.WATER, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
+      this._foods.push(new Food(23, 23, "Water++", [new Attribute(ATTR.WATER, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
       this._foods.push(new Food(24, 24, "Thunder+", [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.ICE, -1)]));
-      this._foods.push(new Food(25, 25, "Fire+", [new Attribute(ATTR.THUNDER, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
+      this._foods.push(new Food(25, 25, "Thunder++", [new Attribute(ATTR.THUNDER, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
       this._foods.push(new Food(26, 26, "Ice+", [new Attribute(ATTR.ICE, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(27, 27, "Fire+", [new Attribute(ATTR.ICE, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
+      this._foods.push(new Food(27, 27, "Ice++", [new Attribute(ATTR.ICE, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
       this._foods.push(new Food(28, 28, "Dragon+", [new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.FIRE, -1)]));
-      this._foods.push(new Food(29, 29, "Fire+", [new Attribute(ATTR.DRAGON, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
+      this._foods.push(new Food(29, 29, "Dragon++", [new Attribute(ATTR.DRAGON, +3), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.SPEED, -1)]));
     }
 
     FoodFactory.prototype.create = function(name) {
