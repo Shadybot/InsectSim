@@ -11,8 +11,8 @@ To do:
  * ~~new cap for stat input~~
  * new branch level
  * new kinsect forms (added, but not coded, names need to be added)
- * attribute caps
- * damage calculator
+ * attribute caps (150 for core attributes, 90 for elements)
+ * damage calculator (http://www.gamefaqs.com/boards/762804-monster-hunter-4-ultimate/71877907)
  * credits
 * research MHX changes
   
