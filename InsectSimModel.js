@@ -1138,27 +1138,27 @@
   exports.FoodFactory = (function() {
     function FoodFactory() {
       this._foods = [];
-      this._foods.push(new Food(1, 1, "Power Nectar: Fire", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.WATER, -2)]));
-      this._foods.push(new Food(2, 2, "Power Nectar: Fire+", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -3)]));
-      this._foods.push(new Food(3, 3, "Power+ Nectar", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.FIRE, -1)]));
-      this._foods.push(new Food(4, 4, "Power+ Nectar: Fire", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.SPEED, -3)]));
-      this._foods.push(new Food(5, 6, "Stam Nectar: Water", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +1), new Attribute(ATTR.FIRE, -2)]));
-      this._foods.push(new Food(6, 7, "Stam Nectar: Dragon", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.FIRE, -3)]));
-      this._foods.push(new Food(7, 5, "Stam Nectar: Dragon+", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.THUNDER, -2)]));
-      this._foods.push(new Food(8, 8, "Stamina+ Nectar", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.WATER, -1)]));
-      this._foods.push(new Food(9, 9, "Stam+ Nectar: Water", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.POWER, -3)]));
-      this._foods.push(new Food(10, 10, "Speed Nectar: Water+", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -3)]));
-      this._foods.push(new Food(11, 11, "Spd Nectar: Thunder", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.ICE, -2)]));
-      this._foods.push(new Food(12, 12, "Spd Nectar: Thunder+", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.ICE, -3)]));
-      this._foods.push(new Food(13, 13, "Speed Nectar: Ice", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +1), new Attribute(ATTR.DRAGON, -2)]));
-      this._foods.push(new Food(14, 14, "Speed Nectar: Ice+", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +2), new Attribute(ATTR.DRAGON, -3)]));
-      this._foods.push(new Food(15, 15, "Speed+ Nectar", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.THUNDER, -1)]));
-      this._foods.push(new Food(16, 16, "Spd+ Nectar: Thunder", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.STAMINA, -3)]));
-      this._foods.push(new Food(17, 17, "Nectar: Fire+", [new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -1), new Attribute(ATTR.ICE, -1)]));
-      this._foods.push(new Food(18, 18, "Nectar: Water+", [new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(19, 19, "Nectar: Thunder+", [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.ICE, -1)]));
-      this._foods.push(new Food(20, 20, "Nectar: Ice+", [new Attribute(ATTR.ICE, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.DRAGON, -1)]));
-      this._foods.push(new Food(21, 21, "Nectar: Dragon+", [new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.FIRE, -1)]));
+      this._foods.push(new Food(1, 1, "Power: Fire", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.WATER, -2)]));
+      this._foods.push(new Food(2, 2, "Power: Fire+", [new Attribute(ATTR.POWER, +1), new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -3)]));
+      this._foods.push(new Food(3, 3, "Power+", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.FIRE, -1)]));
+      this._foods.push(new Food(4, 4, "Power+: Fire", [new Attribute(ATTR.POWER, +2), new Attribute(ATTR.FIRE, +1), new Attribute(ATTR.SPEED, -3)]));
+      this._foods.push(new Food(5, 6, "Stam: Water", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +1), new Attribute(ATTR.FIRE, -2)]));
+      this._foods.push(new Food(6, 7, "Stam: Dragon", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.FIRE, -3)]));
+      this._foods.push(new Food(7, 5, "Stam: Dragon+", [new Attribute(ATTR.STAMINA, +1), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.THUNDER, -2)]));
+      this._foods.push(new Food(8, 8, "Stamina+", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.WATER, -1)]));
+      this._foods.push(new Food(9, 9, "Stam+: Water", [new Attribute(ATTR.STAMINA, +2), new Attribute(ATTR.WATER, +1), new Attribute(ATTR.POWER, -3)]));
+      this._foods.push(new Food(10, 10, "Speed: Water+", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -3)]));
+      this._foods.push(new Food(11, 11, "Spd: Thunder", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.ICE, -2)]));
+      this._foods.push(new Food(12, 12, "Spd: Thunder+", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.ICE, -3)]));
+      this._foods.push(new Food(13, 13, "Speed: Ice", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +1), new Attribute(ATTR.DRAGON, -2)]));
+      this._foods.push(new Food(14, 14, "Speed: Ice+", [new Attribute(ATTR.SPEED, +1), new Attribute(ATTR.ICE, +2), new Attribute(ATTR.DRAGON, -3)]));
+      this._foods.push(new Food(15, 15, "Speed+", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.THUNDER, -1)]));
+      this._foods.push(new Food(16, 16, "Spd+: Thunder", [new Attribute(ATTR.SPEED, +2), new Attribute(ATTR.THUNDER, +1), new Attribute(ATTR.STAMINA, -3)]));
+      this._foods.push(new Food(17, 17, "Fire+", [new Attribute(ATTR.FIRE, +2), new Attribute(ATTR.WATER, -1), new Attribute(ATTR.ICE, -1)]));
+      this._foods.push(new Food(18, 18, "Water+", [new Attribute(ATTR.WATER, +2), new Attribute(ATTR.THUNDER, -1), new Attribute(ATTR.DRAGON, -1)]));
+      this._foods.push(new Food(19, 19, "Thunder+", [new Attribute(ATTR.THUNDER, +2), new Attribute(ATTR.SPEED, -1), new Attribute(ATTR.ICE, -1)]));
+      this._foods.push(new Food(20, 20, "Ice+", [new Attribute(ATTR.ICE, +2), new Attribute(ATTR.STAMINA, -1), new Attribute(ATTR.DRAGON, -1)]));
+      this._foods.push(new Food(21, 21, "Dragon+", [new Attribute(ATTR.DRAGON, +2), new Attribute(ATTR.POWER, -1), new Attribute(ATTR.FIRE, -1)]));
     }
 
     FoodFactory.prototype.create = function(name) {
@@ -1698,9 +1698,9 @@
       c1 = new InsectType(2, "Foebeetle/Alucanid", "(ATK)", 4, 78, 60, 60, "ATK Up S");
       c1_1 = new InsectType(3, "Carnage Beetle/Monarch Alucanid", "(ATK＋)", 7, 96, 60, 60, "ATK Up L");
       c1_2 = new InsectType(4, "Bonnetfille/Empresswing", "(ATK/Rec)", 7, 87, 66, 63, "ATK Up M / Rec Up S");
-      c2 = new InsectType(5, "Ladytarge/Rigiprayne", "(STAM)", 4, 60, 78, 60, "STAM Up S");
-      c2_1 = new InsectType(6, "Ladypavise/Cancadaman", "(STAM＋)", 7, 60, 96, 60, "STAM Up L");
-      c2_2 = new InsectType(7, "Arkmaiden/Fiddlebrix", "(STAM/Rec)", 7, 69, 84, 63, "STAM Up M / Rec Up S");
+      c2 = new InsectType(5, "Ladytarge/Rigiprayne", "(STA)", 4, 60, 78, 60, "STA Up S");
+      c2_1 = new InsectType(6, "Ladypavise/Cancadaman", "(STA＋)", 7, 60, 96, 60, "STA Up L");
+      c2_2 = new InsectType(7, "Arkmaiden/Fiddlebrix", "(STA/Rec)", 7, 69, 84, 63, "STA Up M / Rec Up S");
       c3 = new InsectType(8, "Gullshad/Windchopper", "(SPD)", 4, 60, 60, 78, "SPD Up S");
       c3_1 = new InsectType(9, "Bullshroud/Grancathar", "(SPD＋)", 7, 60, 60, 96, "SPD Up L");
       c3_2 = new InsectType(10, "Whisperwesp/Pseudocath", "(SPD/Rec)", 7, 69, 66, 81, "SPD Up M / Rec Up S");
