@@ -8,10 +8,10 @@ To do:
 * implement 4G changes
  * ~~new nectars~~
  * ~~new levels~~
+ * ~~new cap for stat input~~
  * new branch level
  * new kinsect forms (added, but not coded, names need to be added)
  * attribute caps
- * new cap for stat input
  * damage calculator
  * credits
 * research MHX changes
