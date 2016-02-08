@@ -2187,9 +2187,9 @@
       var _this = this;
       this.validators = [];
       $("div.dialogBody div.TextArea input:text").each(function(i, textbox) {
-        return _this.validators.push(new NumberRangeValidViewer("#" + textbox.id, 0, 90));
+        return _this.validators.push(new NumberRangeValidViewer("#" + textbox.id, 0, 180));
       });
-      return this.validators.push(new NumberSumMaxValidViewer("#frmInitDialog .TextArea input:text", "#lblErrorProvider", 90));
+      return this.validators.push(new NumberSumMaxValidViewer("#frmInitDialog .TextArea input:text", "#lblErrorProvider", 180));
     };
 
     InitDialogBuilder.prototype.addAbleInsectTypeLister = function() {
