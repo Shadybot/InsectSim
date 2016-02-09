@@ -2289,6 +2289,13 @@
   	}
   	TopElem:  Check which of the ATTR.[ELEMENTS] is highest and set TopElem to its value 
   	return TopElem * 2.5 * Emod;
-  } */
+  } 
+  SKILLS
+ATK Up S: 1.06
+ATK Up M: 1.12
+ATK Up L: 1.14
+All Up S: 1.04
+All Up M: 1.08
+All Up L: 1.10 */
 
 }).call(this);
