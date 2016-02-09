@@ -4,7 +4,7 @@
   exports = this;
 
   $(function() {
-    var browserSaveData, initDialog, initDialogBuildDirector, insect, insectBuildDirector;
+    var browserSaveData, initDialog, initDialogBuildDirector, insectBuildDirector;
     insectBuildDirector = new InsectBuildDirector(new InsectBuilder());
     insect = insectBuildDirector.construct();
     if (location.search.length >= 2) {
