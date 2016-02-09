@@ -761,8 +761,8 @@
         this.list.push(item);
         return;
       }
-      lastItem = this.list[this.list.length - 1]; 
-	  lastItemName = lastItem.match(new RegExp("^[^×]+"))[0].trim(); 
+      lastItem = this.list[this.list.length - 1];
+	  lastItemName = lastItem.match(new RegExp("^[^×]+"))[0].trim();
       if (lastItemName !== item) {
         this.list.push(item);
         return;
@@ -1701,30 +1701,47 @@
 //I was right.
   exports.InsectTypeFactory = (function() {
     function InsectTypeFactory() {
-      var c1, c1_1, c1_2, c2, c2_1, c2_2, c3, c3_1, c3_2, c4, c4_1;
+      var c1, c1_1, c1_1_1, c1_2, c2, c2_1, c2_1_1, c2_2, c3, c3_1, c3_1_1, c3_2, c4, c4_1, c4_1_1;
       this.root = new InsectType(1, "Mauldrone/Culldrone", "(New)", 1, 60, 60, 60, "None");
       c1 = new InsectType(2, "Foebeetle/Alucanid", "(ATK)", 4, 78, 60, 60, "ATK Up S");
       c1_1 = new InsectType(3, "Carnage Beetle/Monarch Alucanid", "(ATK＋)", 7, 96, 60, 60, "ATK Up L");
-      c1_2 = new InsectType(4, "Bonnetfille/Empresswing", "(ATK/Rec)", 7, 87, 66, 63, "ATK Up M / Rec Up S");
-      c2 = new InsectType(5, "Ladytarge/Rigiprayne", "(STA)", 4, 60, 78, 60, "STA Up S");
-      c2_1 = new InsectType(6, "Ladypavise/Cancadaman", "(STA＋)", 7, 60, 96, 60, "STA Up L");
-      c2_2 = new InsectType(7, "Arkmaiden/Fiddlebrix", "(STA/Rec)", 7, 69, 84, 63, "STA Up M / Rec Up S");
-      c3 = new InsectType(8, "Gullshad/Windchopper", "(SPD)", 4, 60, 60, 78, "SPD Up S");
-      c3_1 = new InsectType(9, "Bullshroud/Grancathar", "(SPD＋)", 7, 60, 60, 96, "SPD Up L");
-      c3_2 = new InsectType(10, "Whisperwesp/Pseudocath", "(SPD/Rec)", 7, 69, 66, 81, "SPD Up M / Rec Up S");
-      c4 = new InsectType(11, "Pummeldrone/Reaverdrone", "(BAL)", 4, 69, 66, 63, "All Up S");
-      c4_1 = new InsectType(12, "Arginesse/Escarad", "(BAL＋)", 7, 78, 72, 66, "All Up M / Rec Up L");
+      c1_1_1 = new InsectType(4, "Gleambeetle/Exalted Alucanid", "(ATK+SPD)", 11, 96, 60, 96, "ATK+SPD Up L<br>Rec Up S<br>Pierce Up");
+      c1_2 = new InsectType(5, "Bonnetfille/Empresswing", "(ATK/Rec)", 7, 87, 66, 63, "ATK Up M / Rec Up S");
+      c2 = new InsectType(6, "Ladytarge/Rigiprayne", "(STA)", 4, 60, 78, 60, "STA Up S");
+      c2_1 = new InsectType(7, "Ladypavise/Cancadaman", "(STA＋)", 7, 60, 96, 60, "STA Up L");
+      c2_1_1 = new InsectType(8, "Ladytower/Bilbobrix", "(ATK+STA)", 11, 96, 96, 60, "Rec Up S<br>Efct Extend+Affnty Up");
+      c2_2 = new InsectType(9, "Arkmaiden/Fiddlebrix", "(STA/Rec)", 7, 69, 84, 63, "STA Up M / Rec Up S");
+      c3 = new InsectType(10, "Gullshad/Windchopper", "(SPD)", 4, 60, 60, 78, "SPD Up S");
+      c3_1 = new InsectType(11, "Bullshroud/Grancathar", "(SPD＋)", 7, 60, 60, 96, "SPD Up L");
+      c3_1_1 = new InsectType(12, "Fleetflamer/Foliacath", "(STA+SPD)", 11, 60, 96, 96, "STA+SPD Up L<br>Charge Time Down");
+      c3_2 = new InsectType(13, "Whisperwesp/Pseudocath", "(SPD/Rec)", 7, 69, 66, 81, "SPD Up M / Rec Up S");
+      c4 = new InsectType(14, "Pummeldrone/Reaverdrone", "(BAL)", 4, 69, 66, 63, "All Up S");
+      c4_1 = new InsectType(15, "Arginesse/Escarad", "(BAL＋)", 7, 78, 72, 66, "All Up M / Rec Up L");
+      c4_1_1 = new InsectType(16, "Great Arginesse/Great Escarad", "(BAL＋＋)", 11, 96, 84, 72, "All Up L<br>Rec Up+Status Rec<br>Stored Extract+1");
       this.root.addChild(c1);
       c1.addChild(c1_1);
+      c1_1.addChild(c1_1_1);
+      c1_1.addChild(c2_1_1);
       c1.addChild(c1_2);
+      c1_2.addChild(c1_1_1);
+      c1_2.addChild(c2_1_1);
       this.root.addChild(c2);
       c2.addChild(c2_1);
+      c2_1.addChild(c2_1_1);
+      c2_1.addChild(c3_1_1);
       c2.addChild(c2_2);
+      c2_2.addChild(c2_1_1);
+      c2_2.addChild(c3_1_1);
       this.root.addChild(c3);
       c3.addChild(c3_1);
+      c3_1.addChild(c3_1_1);
+      c3_1.addChild(c1_1_1);
       c3.addChild(c3_2);
+      c3_2.addChild(c3_1_1);
+      c3_2.addChild(c1_1_1);
       this.root.addChild(c4);
       c4.addChild(c4_1);
+      c4_1.addChild(c4_1_1);
     }
 
     InsectTypeFactory.prototype.createRoot = function() {
@@ -1836,7 +1853,11 @@
       this._buildEvolutionItem("lblEvo8");
       this._buildEvolutionItem("lblEvo9");
       this._buildEvolutionItem("lblEvo10");
-      return this._buildEvolutionItem("lblEvo11");
+      this._buildEvolutionItem("lblEvo11");
+      this._buildEvolutionItem("lblEvo12");
+      this._buildEvolutionItem("lblEvo13");
+      this._buildEvolutionItem("lblEvo14");
+      return this._buildEvolutionItem("lblEvo15");
     };
 
     InsectBuilder.prototype._buildEvolutionItem = function(elementId) {
