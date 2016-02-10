@@ -8,6 +8,7 @@
 <script src="./js/jquery.cookie.js"></script>
 <script src="./InsectSimModel.js"></script>
 <script src="./InsectSim.js"></script>
+<script src="./InsectDamage.js"></script>
 </head>
 <body>
 
@@ -111,17 +112,17 @@ Kinsect forms change at the end of levels 3, 6, and 10.
 </tr> <!--go to insectsimmodel.js and take a look at exports.InsectTypeFactory-->
 <tr><td><span id="lblEvo0">New</span>    </td><td>1</td><td>60</td><td>60</td><td>60</td><td style="font-size:x-small">None</td></tr>
 <tr><td>├<span id="lblEvo1">ATK</span>    </td><td>4</td><td>78</td><td>60</td><td>60</td><td style="font-size:x-small">ATK Up S</td></tr>
-<tr><td>│├<span id="lblEvo2">ATK＋</span> ─ ¹</td><td>7</td><td>96</td><td>60</td><td>60</td><td style="font-size:x-small">ATK Up L</td></tr>
+<tr><td>│├<span id="lblEvo2">ATK+</span> ─ ¹</td><td>7</td><td>96</td><td>60</td><td>60</td><td style="font-size:x-small">ATK Up L</td></tr>
 <tr><td>│└<span id="lblEvo3">ATK/Rec</span> ─ ¹</td><td>7</td><td>87</td><td>66</td><td>63</td><td style="font-size:x-small">ATK Up M / Rec Up S</td></tr>
 <tr><td>├<span id="lblEvo4">STA</span>    </td><td>4</td><td>60</td><td>78</td><td>60</td><td style="font-size:x-small">STAM Up S</td></tr>
-<tr><td>│├<span id="lblEvo5">STA＋</span> ─ ²</td><td>7</td><td>60</td><td>96</td><td>60</td><td style="font-size:x-small">STAM Up L</td></tr>
+<tr><td>│├<span id="lblEvo5">STA+</span> ─ ²</td><td>7</td><td>60</td><td>96</td><td>60</td><td style="font-size:x-small">STAM Up L</td></tr>
 <tr><td>│└<span id="lblEvo6">STA/Rec</span> ─ ²</td><td>7</td><td>69</td><td>84</td><td>63</td><td style="font-size:x-small">STAM Up M / Rec Up S</td></tr>
 <tr><td>├<span id="lblEvo7">SPD</span>    </td><td>4</td><td>60</td><td>60</td><td>78</td><td style="font-size:x-small">SPD Up S</td></tr>
-<tr><td>│├<span id="lblEvo8">SPD＋</span> ─ ³</td><td>7</td><td>60</td><td>60</td><td>96</td><td style="font-size:x-small">SPD Up L</td></tr>
+<tr><td>│├<span id="lblEvo8">SPD+</span> ─ ³</td><td>7</td><td>60</td><td>60</td><td>96</td><td style="font-size:x-small">SPD Up L</td></tr>
 <tr><td>│└<span id="lblEvo9">SPD/Rec</span> ─ ³</td><td>7</td><td>69</td><td>66</td><td>81</td><td style="font-size:x-small">SPD Up M / Rec Up S</td></tr>
 <tr><td>└<span id="lblEvo10">BAL</span>    </td><td>4</td><td>69</td><td>66</td><td>63</td><td style="font-size:x-small">All Up S</td></tr>
-<tr><td>　└<span id="lblEvo11">BAL＋</span></td><td>7</td><td>78</td><td>72</td><td>66</td><td style="font-size:x-small">All Up M / Rec Up L</td></tr>
-<tr><td>　　└<span id="lblEvo12">BAL＋＋</span></td><td>11</td><td>96</td><td>84</td><td>72</td><td style="font-size:x-small">All Up L<br>Rec Up+Status Rec<br>Stored Extract+1</td></tr>
+<tr><td>　└<span id="lblEvo11">BAL+</span></td><td>7</td><td>78</td><td>72</td><td>66</td><td style="font-size:x-small">All Up M / Rec Up L</td></tr>
+<tr><td>　　└<span id="lblEvo12">BAL++</span></td><td>11</td><td>96</td><td>84</td><td>72</td><td style="font-size:x-small">All Up L<br>Rec Up+Status Rec<br>Stored Extract+1</td></tr>
 <tr><td>¹/³ ─ <span id="lblEvo13">ATK+SPD</span></td><td>11</td><td>96</td><td>60</td><td>96</td><td style="font-size:x-small">ATK+SPD Up L<br>Rec Up S<br>Pierce Up</td></tr>
 <tr><td>¹/² ─ <span id="lblEvo14">ATK+STA</span></td><td>11</td><td>96</td><td>96</td><td>60</td><td style="font-size:x-small">ATK+STA Up L<br>Rec Up S<br>Efct Extend+Affnty Up</td></tr>
 <tr><td>²/³ ─ <span id="lblEvo15">STA+SPD</span></td><td>11</td><td>60</td><td>96</td><td>96</td><td style="font-size:x-small">STA+SPD Up L<br>Charge Time Down</td></tr>
@@ -137,16 +138,19 @@ upgrade into the ATK+STA form, for example.
 <div id="lstFoodHistory">Loading</div>
 <h1>Total Nectar</h1>
 <div id="lstFoodSummary"></div>
-<h1>Kinsect<br>Damage</h1>
+<h1>Kinsect<br>Damage</h1><br>
+Values shown are before <br>factoring in hitzones.<br>
 <b>Regular</b><br>
-Raw: <br>
-Element: <br>
+Raw: <span id="RegRaw">22.5</span><br>
+Element: <span id="RegElem">0</span><br>
 <b>Charged</b><br>
-Raw: <br>
-Element: <br>
+Raw: <span id="ChargeRaw">40</span><br>
+Element: <span id="ChargeElem">0</span><br>
 </div>
 
 <div style="clear:both;">
+<H2>Credits</H2>
+<a href="http://culage.github.io/InsectSim/InsectSim.html">Original MH4 tool</a> by Culage. Majority of the coding in this new tool was done by MrCythos and Hairo. Thanks to nubl for assistance with JavaScript.<br>
 <a href="./history.html" target="_blank">Changelog</a>
 </div>
 
