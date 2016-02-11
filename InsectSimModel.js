@@ -971,14 +971,41 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         attribute = _ref[_i];
         addPoint = Math.min(this.allGrowthPoint.getLevelOfSpace(), attribute.point);
-        this.attributeStatusList[attribute.type].add(addPoint);
-        if (addPoint > 0) {
-          foodEated = true;
+        if (this.underCap(attribute.type, this.attributeStatusList[attribute.type].status)) {
+          this.attributeStatusList[attribute.type].add(addPoint);
+          console.log(addPoint)
+          if (addPoint > 0) {
+            console.log("eated")
+            foodEated = true;
+            }
         }
       }
       if (foodEated) {
         this.foodHistory.push(new FoodHistoryItem(food));
         return this.undoMemory.setUndoPoint(memory);
+      }
+    };
+
+    Insect.prototype.underCap = function(type, value) {
+      console.log(type)
+      if (type == "P" && value >= 150) {
+        return false;
+      } else if (type == "ST" && value >= 150) {
+        return false;
+      } else if (type == "SP" && value >= 150) {
+        return false;
+      } else if (type == "F" && value >= 90) {
+        return false;
+      } else if (type == "W" && value >= 90) {
+        return false;
+      } else if (type == "T" && value >= 90) {
+        return false;
+      } else if (type == "I" && value >= 90) {
+        return false;
+      } else if (type == "D" && value >= 90) {
+        return false;
+      } else {
+        return true
       }
     };
 
@@ -2267,7 +2294,7 @@
     return InitDialogBuildDirector;
 
   })();
-  
+
 /*  DamageRaw = function(charge) {
   	var charge dmg motion KinSkill;
   	dmg = 0;
@@ -2276,7 +2303,7 @@
     	} else {
     		motion = 0.45;
        	}
-       	KinSkill: Check which kinsect form is currently being used and set KinSkill to the value associated with that form's skills, as listed below 
+       	KinSkill: Check which kinsect form is currently being used and set KinSkill to the value associated with that form's skills, as listed below
        	return (((ATTR.POWER - 15) / 9) * 10) * motion;
   }
   DamageElem = function(Echarge) {
@@ -2287,9 +2314,9 @@
   	} else {
   		Emod = 1;
   	}
-  	TopElem:  Check which of the ATTR.[ELEMENTS] is highest and set TopElem to its value 
+  	TopElem:  Check which of the ATTR.[ELEMENTS] is highest and set TopElem to its value
   	return TopElem * 2.5 * Emod;
-  } 
+  }
   SKILLS
 ATK Up S: 1.06
 ATK Up M: 1.12
