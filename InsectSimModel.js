@@ -973,9 +973,7 @@
         addPoint = Math.min(this.allGrowthPoint.getLevelOfSpace(), attribute.point);
         if (this.underCap(attribute.type, this.attributeStatusList[attribute.type].status)) {
           this.attributeStatusList[attribute.type].add(addPoint);
-          console.log(addPoint)
           if (addPoint > 0) {
-            console.log("eated")
             foodEated = true;
             }
         }
