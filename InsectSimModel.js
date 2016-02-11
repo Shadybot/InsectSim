@@ -985,7 +985,6 @@
     };
 
     Insect.prototype.underCap = function(type, value) {
-      console.log(type)
       if (type == "P" && value >= 150) {
         return false;
       } else if (type == "ST" && value >= 150) {
