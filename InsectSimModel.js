@@ -2292,34 +2292,4 @@
 
   })();
 
-/*  DamageRaw = function(charge) {
-  	var charge dmg motion KinSkill;
-  	dmg = 0;
-  	if (charge == true) {
-  		motion = 0.8;
-    	} else {
-    		motion = 0.45;
-       	}
-       	KinSkill: Check which kinsect form is currently being used and set KinSkill to the value associated with that form's skills, as listed below
-       	return (((ATTR.POWER - 15) / 9) * 10) * motion;
-  }
-  DamageElem = function(Echarge) {
-  	var Echarge Edmg Emod TopElem;
-  	Edmg = 0;
-  	if (Echarge == true) {
-  		Emod = 1.5;
-  	} else {
-  		Emod = 1;
-  	}
-  	TopElem:  Check which of the ATTR.[ELEMENTS] is highest and set TopElem to its value
-  	return TopElem * 2.5 * Emod;
-  }
-  SKILLS
-ATK Up S: 1.06
-ATK Up M: 1.12
-ATK Up L: 1.14
-All Up S: 1.04
-All Up M: 1.08
-All Up L: 1.10 */
-
 }).call(this);
