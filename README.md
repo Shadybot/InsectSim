@@ -1,7 +1,7 @@
 # InsectSim    
 Translating and updating a Japanese MH4 kinsect simulator for MH4U    
 Original tool by Culage http://culage.github.io/InsectSim/InsectSim    
-Current status: implementing 4G changes    
+Current status: Bug fixing 4G changes    
 To do: 
 
 * Fix a bug in which the Current Stat Input tool always uses the last kinsect type in the list.
