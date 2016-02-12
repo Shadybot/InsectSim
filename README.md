@@ -4,16 +4,7 @@ Original tool by Culage http://culage.github.io/InsectSim/InsectSim
 Current status: implementing 4G changes    
 To do: 
 
-* ~~test translation~~
-* implement 4G changes
- * ~~new nectars~~
- * ~~new levels~~
- * ~~new cap for stat input~~
- * ~~new branch level~~
- * ~~new kinsect forms~~ 
- * attribute caps (150 for core attributes, 90 for elements)
- * ~~damage calculator~~
- * ~~credits~~
+* Fix a bug in which the Current Stat Input tool always uses the last kinsect type in the list.
+* Fix a bug in which the Simulator Output save is unable to properly save dragon element.
+* Fix a bub in which the Current Stat Input tool displays four of a final tier kinsect type.
 * research MHX changes
-  
--[Translation sheet](https://docs.google.com/spreadsheets/d/1fVJ2eAtS1vWQCxpIEioA8ahEgLEFwg4-7g2GKKs2DxA/edit?usp=sharing)
