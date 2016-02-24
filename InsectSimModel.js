@@ -2171,10 +2171,11 @@
       ableInsectNames = [];
       this.jCombo.find("option").remove();
       _ref = ableInsectTypeLister.getAbleList();
+      this.jCombo.data("insectType", _ref);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         insectType = _ref[_i];
         ableInsectNames.push(insectType.shortName);
-        this.jCombo.append("<option value='" + insectType.shortName + "'>" + insectType.shortName + " " + insectType.name + "</option>").data("insectType", insectType);
+        this.jCombo.append("<option value='" + insectType.shortName + "'>" + insectType.shortName + " " + insectType.name + "</option>");
       }
       if (__indexOf.call(ableInsectNames, currentInsectName) >= 0) {
         return this.jCombo.val(currentInsectName);
