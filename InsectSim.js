@@ -52,7 +52,7 @@
     $("#btnInitDialogOk").click(function() {
       var growthPointList, growthPointTextbox, insectType, jGrowthPointTextboxs, _i, _len;
       initDialog.close();
-      insectType = $("#cmbInsectType").data("insectType");
+      insectType = $("#cmbInsectType").data("insectType")[$("#cmbInsectType option:selected").index()];
       growthPointList = [];
       jGrowthPointTextboxs = $("div.dialogBody div.TextArea input:text");
       for (_i = 0, _len = jGrowthPointTextboxs.length; _i < _len; _i++) {
